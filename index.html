@@ -1181,9 +1181,122 @@ button.nx-app__btn.is-busy{ animation:racBusy .55s var(--ac-ease); }
   }
 }
 
+/* ============================================================
+   PRINT — 1 slide = 1 A4 landscape page, auto-fit, no clipping
+   ------------------------------------------------------------
+   Strategy: JS adds `html.printing` before printing and measures
+   each slide, scaling its content to fit the exact A4 box. The
+   rules below are written under `html.printing` so the SAME layout
+   is used both for the on-screen measurement and the printed page
+   (the class stays on through the print render). Type sizes are
+   FIXED rem here (not vh) so the measured height equals the printed
+   height. A no-JS fallback lives in the @media print block.
+   ============================================================ */
+html.printing{
+  background:#fff !important;
+  -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;
+  /* deterministic, viewport-independent type scale for paper
+     (kept generous so pages fill nicely; auto-fit shrinks dense slides) */
+  --title-size:2.5rem; --h2-size:1.85rem; --h3-size:1.4rem;
+  --body-size:1.18rem; --small-size:1rem;
+  --slide-padding:1rem; --content-gap:1rem; --element-gap:.5rem;
+  overflow:visible !important; height:auto !important;
+}
+html.printing body{
+  height:auto !important; overflow:visible !important;
+  background:#fff !important; scroll-snap-type:none !important;
+}
+/* one slide == one A4 landscape page (1122×793px ≈ 297×210mm @96dpi) */
+html.printing .slide{
+  width:1122px !important; height:793px !important;
+  max-height:793px !important; min-height:0 !important;
+  position:relative !important; overflow:hidden !important;
+  margin:0 !important; padding:0 !important;
+  display:flex !important; align-items:center !important; justify-content:center !important;
+  page-break-after:always !important; break-after:page !important;
+  page-break-inside:avoid !important; break-inside:avoid !important;
+  scroll-snap-align:none !important;
+}
+html.printing .slide:last-of-type{ page-break-after:auto !important; break-after:auto !important; }
+/* content block: natural size, centred, then scaled to fit by JS */
+html.printing .slide-content{
+  position:relative !important;
+  flex:0 0 auto !important;
+  width:100% !important; height:auto !important; max-height:none !important;
+  overflow:visible !important;
+  padding:.6rem 1.4rem !important;       /* no rail offset on paper */
+  transform-origin:center center !important;
+}
+html.printing .wrap, html.printing .wrap--wide{ max-height:none !important; }
+
+/* tighten dense components so most slides need little/no scaling */
+html.printing .card, html.printing .card4, html.printing .stat,
+html.printing .ktile, html.printing .nx3-card{ padding:.4rem .6rem !important; }
+html.printing ul{ margin-bottom:0 !important; }
+html.printing li{ margin-bottom:.18rem !important; }
+html.printing .km-tbl, html.printing table{ font-size:.62rem !important; }
+html.printing .km-tbl th, html.printing .km-tbl td,
+html.printing table th, html.printing table td{ padding:.22rem !important; }
+
+/* keep the desktop multi-column layout on paper (ignore mobile 1-col) */
+html.printing .cards--4{ grid-template-columns:repeat(4,1fr) !important; }
+html.printing .cards--3, html.printing .tri{ grid-template-columns:repeat(3,1fr) !important; }
+html.printing .grid{ grid-template-columns:repeat(auto-fit,minmax(0,1fr)) !important; }
+html.printing div[style*="grid-template-columns:repeat(3,1fr)"]{ grid-template-columns:repeat(3,1fr) !important; }
+
+/* hide interactive chrome, animated background, hero video */
+html.printing .rail, html.printing .counter, html.printing .progress,
+html.printing .hint, html.printing .m-hint, html.printing .nav-dots,
+html.printing .keyboard-hint, html.printing .oilbg,
+html.printing .video-bg-wrap, html.printing .hero-motion-bg,
+html.printing .hero-particles{ display:none !important; }
+
+/* freeze every animated element at its FINAL/visible state
+   (un-viewed slides never got .ac-on, so reveals/bars would print blank) */
+html.printing *, html.printing *::before, html.printing *::after{
+  transition:none !important; animation:none !important;
+}
+html.printing .ac-reveal, html.printing .ac-pop,
+html.printing .ac-area, html.printing .ch7-stage{ opacity:1 !important; transform:none !important; }
+html.printing .ac-bar{ height:var(--h) !important; }
+html.printing .ac-fill-x{ width:var(--w) !important; }
+html.printing .ac-ring-val{ stroke-dashoffset:calc(var(--circ)*(1 - var(--p))) !important; }
+html.printing .ac-draw{ stroke-dashoffset:0 !important; }
+html.printing .ch7-track__fill, html.printing .df-dom__bar i{ width:100% !important; }
+html.printing .ch7-doc, html.printing .ch7-q, html.printing .nx3-hub__pulse,
+html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-beam::after{ opacity:0 !important; }
+
+@media print{
+  /* Explicit A4 landscape so the browser never falls back to Letter. */
+  @page{ size:A4 landscape; margin:0; }
+
+  /* When JS auto-fit ran, map the fixed-px slide to the real page exactly. */
+  html.printing .slide{ width:100% !important; height:100vh !important; max-height:100vh !important; }
+
+  /* ---- No-JS fallback (beforeprint didn't fire): still print landscape,
+       one slide per page, with a conservative uniform shrink. ---- */
+  html:not(.printing){ background:#fff !important; }
+  html:not(.printing) body{ height:auto !important; overflow:visible !important; background:#fff !important; }
+  html:not(.printing) .rail, html:not(.printing) .counter, html:not(.printing) .progress,
+  html:not(.printing) .hint, html:not(.printing) .m-hint, html:not(.printing) .oilbg,
+  html:not(.printing) .video-bg-wrap{ display:none !important; }
+  html:not(.printing) .slide{
+    width:100% !important; height:100vh !important; overflow:hidden !important;
+    display:flex !important; align-items:center !important; justify-content:center !important;
+    page-break-after:always !important; break-inside:avoid !important;
+  }
+  html:not(.printing) .slide:last-of-type{ page-break-after:auto !important; }
+  @media (min-width:1000px){ html:not(.printing) .slide-content{ padding-left:1rem !important; } }
+  html:not(.printing) .slide-content{ transform:scale(.78); transform-origin:center center; }
+  html:not(.printing) .ac-reveal, html:not(.printing) .ac-pop, html:not(.printing) .ac-area{ opacity:1 !important; transform:none !important; }
+  html:not(.printing) *, html:not(.printing) *::before, html:not(.printing) *::after{ animation:none !important; transition:none !important; }
+}
+
 </style>
 </head>
 <body>
+
+
 
 <!-- ============ GLOBAL ANIMATED OIL & GAS BACKGROUND (all slides) ============ -->
 <div class="oilbg" aria-hidden="true">
@@ -2953,6 +3066,80 @@ button.nx-app__btn.is-busy{ animation:racBusy .55s var(--ac-ease); }
   ["touchstart","click","pointerdown"].forEach(function(ev){
     document.addEventListener(ev, kick, { once:true, passive:true });
   });
+})();
+
+/* =====================================================================
+   Print helper — auto-fit every slide onto one A4 landscape page.
+   On beforeprint we:
+     1) add html.printing  → applies the paper layout (fixed-rem type,
+        one slide = 1122×793px box, animations frozen at final state),
+     2) snap count-up numbers to their final value,
+     3) measure each slide's natural content and scale .slide-content
+        so it fits the page box exactly — no clipping, centred.
+   The on-screen layout is restored on afterprint.
+   ===================================================================== */
+(function(){
+  function fmt(v, d){ return Number(v).toLocaleString(undefined, { minimumFractionDigits:d, maximumFractionDigits:d }); }
+  var savedNums = [];
+  var fitted = false;
+
+  function freezeNums(){
+    savedNums = [];
+    var els = document.querySelectorAll("[data-count-to]");
+    for (var i=0;i<els.length;i++){
+      var el = els[i];
+      if (el._raf) cancelAnimationFrame(el._raf);
+      savedNums.push([el, el.textContent]);
+      var to = parseFloat(el.getAttribute("data-count-to")); if (isNaN(to)) continue;
+      var d = parseInt(el.getAttribute("data-count-decimals") || "0", 10);
+      var p = el.getAttribute("data-count-prefix") || "";
+      var s = el.getAttribute("data-count-suffix") || "";
+      el.textContent = p + fmt(to, d) + s;
+    }
+  }
+  function restoreNums(){
+    for (var i=0;i<savedNums.length;i++){ savedNums[i][0].textContent = savedNums[i][1]; }
+    savedNums = [];
+  }
+
+  function fit(){
+    if (fitted) return;
+    document.documentElement.classList.add("printing");  // apply paper layout
+    freezeNums();
+    // force reflow so measurements use the paper layout
+    void document.documentElement.offsetHeight;
+    var slides = document.querySelectorAll(".slide");
+    for (var i=0;i<slides.length;i++){
+      var s = slides[i];
+      var c = s.querySelector(".slide-content");
+      if (!c) continue;
+      c.style.transform = "none";
+      var availW = s.clientWidth, availH = s.clientHeight;
+      // natural content size (scrollHeight includes its padding)
+      var cw = c.scrollWidth, ch = c.scrollHeight;
+      var scale = Math.min(1, (availW * 0.99) / cw, (availH * 0.96) / ch);
+      c.style.transformOrigin = "center center";
+      c.style.transform = scale < 0.999 ? "scale(" + (Math.floor(scale*1000)/1000) + ")" : "";
+    }
+    fitted = true;
+  }
+  function unfit(){
+    if (!fitted) return;
+    var cs = document.querySelectorAll(".slide-content");
+    for (var i=0;i<cs.length;i++){ cs[i].style.transform = ""; cs[i].style.transformOrigin = ""; }
+    restoreNums();
+    document.documentElement.classList.remove("printing");
+    fitted = false;
+  }
+
+  window.addEventListener("beforeprint", fit);
+  window.addEventListener("afterprint", unfit);
+  if (window.matchMedia){
+    var mq = window.matchMedia("print");
+    var onChange = function(e){ e.matches ? fit() : unfit(); };
+    if (mq.addEventListener) mq.addEventListener("change", onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  }
 })();
 </script>
 </body>
