@@ -1159,6 +1159,28 @@ button.nx-app__btn.is-busy{ animation:racBusy .55s var(--ac-ease); }
 .ringwrap{ position:relative; display:grid; place-items:center; }
 .ringwrap__txt{ position:absolute; font-family:var(--font-display); font-weight:800; color:var(--pvep-navy); font-size:clamp(.95rem,1.9vw,1.4rem); }
 
+/* --- Mobile Layout Overrides --- */
+@media (max-width: 820px) {
+  .cards--4, .cards--3, .tri { grid-template-columns: 1fr !important; }
+  div[style*="grid-template-columns:repeat(3,1fr)"],
+  div[style*="grid-template-columns: 1fr 1fr"],
+  div[style*="grid-template-columns:1fr 1fr"],
+  div[style*="grid-template-columns: 5fr 4fr"] { 
+    grid-template-columns: 1fr !important; 
+  }
+  div[style*="display:flex; gap:2rem"], 
+  div[style*="display:flex; gap:1.5rem 3rem"] { 
+    flex-direction: column !important; 
+    gap: 1rem !important; 
+  }
+  .slide-content { 
+    overflow-y: auto !important; 
+    justify-content: flex-start !important; 
+    padding-top: 1.5rem !important; 
+    padding-bottom: 3rem !important; 
+  }
+}
+
 </style>
 </head>
 <body>
