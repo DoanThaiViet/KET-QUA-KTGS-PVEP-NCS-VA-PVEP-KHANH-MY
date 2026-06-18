@@ -1159,6 +1159,138 @@ button.nx-app__btn.is-busy{ animation:racBusy .55s var(--ac-ease); }
 .ringwrap{ position:relative; display:grid; place-items:center; }
 .ringwrap__txt{ position:absolute; font-family:var(--font-display); font-weight:800; color:var(--pvep-navy); font-size:clamp(.95rem,1.9vw,1.4rem); }
 
+/* multi-segment interactive donut (slide A2) — framer-motion style ported to vanilla */
+.donut{ position:relative; display:grid; place-items:center; width:clamp(160px,18vw,220px); height:clamp(160px,18vw,220px); }
+.donut__svg{ width:100%; height:100%; transform:rotate(-90deg); overflow:visible; }
+.donut__track{ fill:none; stroke:rgba(10,42,74,.10); stroke-width:14; }
+.donut__seg{ fill:none; stroke-width:14; stroke-linecap:round; cursor:pointer;
+  stroke-dasharray:0 327; transform-origin:center;
+  transition:filter .2s ease-out, transform .2s ease-out, stroke-width .2s ease-out, opacity .2s ease-out; }
+.ac-on .donut__seg{ animation:dnGrow 1.15s var(--ac-ease) both; animation-delay:calc(.25s + var(--i,0)*.14s); }
+@keyframes dnGrow{ from{ stroke-dasharray:0 327; } to{ stroke-dasharray:var(--seg) 327; } }
+.donut.is-hover .donut__seg{ opacity:.4; }
+.donut .donut__seg.is-active{ opacity:1; transform:scale(1.05); stroke-width:16;
+  filter:drop-shadow(0 0 6px currentColor) brightness(1.08); }
+.donut__center{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; text-align:center; }
+.donut__pct{ font-family:var(--font-display); font-weight:800; font-size:clamp(1.5rem,3.2vw,2.2rem); line-height:1; transition:color .2s ease-out; }
+.donut__lbl{ font-size:clamp(.72rem,1.4vw,.95rem); color:var(--ink-600); font-weight:600; margin-top:.18rem; max-width:11ch; line-height:1.15; }
+.donut__sub{ font-size:clamp(.64rem,1.2vw,.82rem); color:var(--ink-500); margin-top:.12rem; }
+.donut__legend{ display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap; margin-top:.7rem; }
+.dn-lg{ display:inline-flex; align-items:center; gap:.4rem; font-family:inherit; font-size:clamp(.66rem,1.2vw,.84rem); color:var(--ink-700); font-weight:600; background:#fff; border:1px solid var(--ac-line); border-radius:999px; padding:.32rem .75rem; cursor:pointer; transition:border-color .2s, box-shadow .2s, transform .2s; }
+.dn-lg:hover{ border-color:var(--pvep-blue); transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,131,199,.16); }
+.dn-lg i{ width:9px; height:9px; border-radius:50%; flex:none; }
+.dn-lg b{ font-family:var(--font-display); color:var(--pvep-navy); }
+@media (prefers-reduced-motion:reduce){ .ac-on .donut__seg{ animation:none; stroke-dasharray:var(--seg) 327; } }
+
+/* ---- gap→fix flip cards (slide A4) ---- */
+.flipgrid{ display:grid; grid-template-columns:repeat(5,1fr); gap:.7rem; margin-top:clamp(.6rem,2vh,1.2rem); }
+.flipcard{ perspective:1100px; height:clamp(155px,24vh,215px); cursor:pointer; }
+.flipcard__in{ position:relative; width:100%; height:100%; transition:transform .6s var(--ac-ease); transform-style:preserve-3d; }
+.flipcard:hover .flipcard__in,.flipcard.is-flip .flipcard__in{ transform:rotateY(180deg); }
+.flipcard__f,.flipcard__b{ position:absolute; inset:0; -webkit-backface-visibility:hidden; backface-visibility:hidden; border-radius:16px; padding:.85rem .8rem; display:flex; flex-direction:column; gap:.4rem; box-shadow:0 10px 30px rgba(10,42,74,.08); overflow:hidden; }
+.flipcard__f{ background:#fff; border:1px solid rgba(220,38,38,.25); border-top:4px solid var(--danger); }
+.flipcard__b{ background:linear-gradient(160deg,#fff,rgba(0,176,80,.07)); border:1px solid rgba(0,176,80,.3); border-top:4px solid var(--pvep-green); transform:rotateY(180deg); }
+.flipcard__no{ width:26px; height:26px; border-radius:8px; display:grid; place-content:center; font-family:var(--font-display); font-weight:800; font-size:.85rem; color:#fff; background:var(--danger); }
+.flipcard__b .flipcard__no{ background:var(--pvep-green); }
+.flipcard__t{ font-family:var(--font-display); font-weight:800; color:var(--pvep-navy); font-size:clamp(.76rem,1.35vw,.95rem); line-height:1.16; }
+.flipcard__b .flipcard__t{ color:var(--success); }
+.flipcard__d{ font-size:clamp(.64rem,1.1vw,.8rem); color:var(--ink-600); line-height:1.32; }
+.flipcard__tag{ position:absolute; right:.6rem; bottom:.5rem; font-size:.58rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-500); }
+.flipcard__b .flipcard__tag{ color:var(--pvep-green); }
+@media (max-width:900px){ .flipgrid{ grid-template-columns:repeat(2,1fr); } }
+
+/* ---- missing-content tile grid (slide A6 · 1.4.3) ---- */
+.gaptiles{ display:grid; grid-template-columns:repeat(3,1fr); gap:.55rem; margin-top:.5rem; }
+.gaptile{ position:relative; display:flex; gap:.6rem; align-items:flex-start; background:#fff; border:1px solid var(--ac-line); border-left:3px solid var(--caution); border-radius:12px; padding:.65rem .75rem; box-shadow:0 6px 18px rgba(10,42,74,.05); transition:transform .25s var(--ac-ease), box-shadow .25s, border-color .25s; }
+.gaptile:hover{ transform:translateY(-4px); border-color:var(--caution); box-shadow:0 16px 34px rgba(217,119,6,.18); z-index:5; }
+.gaptile__ic{ flex:none; width:30px; height:30px; border-radius:8px; display:grid; place-content:center; color:var(--caution); background:rgba(217,119,6,.1); }
+.gaptile__ic svg{ width:18px; height:18px; }
+.gaptile__b{ display:flex; flex-direction:column; gap:.1rem; }
+.gaptile__t{ font-family:var(--font-display); font-weight:700; color:var(--pvep-navy); font-size:clamp(.74rem,1.3vw,.92rem); line-height:1.15; }
+.gaptile__d{ font-size:clamp(.62rem,1.05vw,.75rem); color:var(--ink-600); line-height:1.26; }
+@media (max-width:900px){ .gaptiles{ grid-template-columns:1fr; } }
+
+/* ---- debt aging table (slide A11) ---- */
+.debt-wrap{ margin-top:clamp(.8rem,2vh,1.5rem); background:#fff; border-radius:16px; box-shadow:0 14px 40px rgba(10,42,74,.08); border:1px solid var(--ac-line); overflow:hidden; }
+.debt-bar{ background:#f8fafc; padding:.8rem 1.3rem; border-bottom:1px solid var(--ac-line); display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+.debt-bar__lbl{ font-size:.85rem; font-weight:700; color:var(--ink-700); }
+.debt-sel{ padding:.45rem .8rem; border-radius:8px; border:1px solid var(--ac-line); background:#fff; font-family:inherit; font-size:.85rem; color:var(--ink-700); font-weight:600; cursor:pointer; transition:border-color .2s, box-shadow .2s; }
+.debt-sel:hover,.debt-sel:focus{ border-color:var(--pvep-blue); box-shadow:0 0 0 3px rgba(0,131,199,.12); outline:none; }
+.debt-tbl{ width:100%; border-collapse:collapse; font-size:.92rem; }
+.debt-tbl thead th{ background:var(--pvep-navy); color:#fff; font-family:var(--font-display); font-weight:700; font-size:.82rem; letter-spacing:.02em; padding:.8rem 1.2rem; text-align:left; }
+.debt-tbl thead th.num{ text-align:right; } .debt-tbl thead th.ctr{ text-align:center; }
+.debt-tbl tbody td{ padding:.7rem 1.2rem; border-bottom:1px solid #eef2f7; color:var(--ink-700); vertical-align:middle; }
+.debt-tbl tbody tr:nth-child(even){ background:#fafcfe; }
+.debt-tbl tbody tr{ transition:background .2s ease, box-shadow .2s ease; cursor:pointer; }
+.debt-tbl tbody tr:hover{ background:rgba(0,131,199,.07); box-shadow:inset 3px 0 0 var(--pvep-blue); }
+.debt-tbl tbody tr.is-red{ background:rgba(220,38,38,.05); }
+.debt-tbl tbody tr.is-red:hover{ background:rgba(220,38,38,.09); box-shadow:inset 3px 0 0 var(--danger); }
+.debt-tbl .num{ text-align:right; font-family:var(--font-display); font-weight:800; color:var(--pvep-navy); white-space:nowrap; }
+.debt-tbl tr.is-red .num{ color:var(--danger); }
+.debt-tbl .ctr{ text-align:center; }
+.debt-tbl .note-c{ font-size:.8rem; color:var(--ink-500); }
+.t-type{ display:inline-flex; align-items:center; gap:.35rem; font-weight:700; font-size:.82rem; }
+.t-pay{ color:var(--info); } .t-rec{ color:var(--success); }
+.t-type i{ width:7px; height:7px; border-radius:50%; background:currentColor; flex:none; }
+.age{ display:inline-block; padding:.22rem .65rem; border-radius:99px; font-size:.76rem; font-weight:700; color:#fff; white-space:nowrap; }
+.age--ok{ background:var(--pvep-green); } .age--warn{ background:var(--warning); } .age--red{ background:var(--danger); }
+@media (max-width:820px){ .debt-tbl{ font-size:.8rem; } .debt-tbl thead th,.debt-tbl tbody td{ padding:.5rem .6rem; } }
+
+/* ---- mini compare bars (slide A8 · GPA) ---- */
+.cmp{ display:flex; flex-direction:column; gap:.5rem; margin:.6rem 0 .2rem; }
+.cmp__row{ display:flex; align-items:center; gap:.55rem; }
+.cmp__lbl{ font-size:.72rem; font-weight:700; color:var(--ink-600); min-width:6.4em; text-align:right; }
+.cmp__track{ flex:1; height:15px; background:var(--ac-track); border-radius:99px; overflow:hidden; }
+.cmp__fill{ height:100%; border-radius:99px; width:0; transition:width 1s var(--ac-ease) .25s; }
+.ac-on .cmp__fill{ width:var(--w); }
+.cmp__val{ font-family:var(--font-display); font-weight:800; font-size:.82rem; min-width:2.4em; }
+.cmp__note{ font-size:.7rem; color:var(--danger); font-weight:700; text-align:center; margin-top:.1rem; }
+
+/* ---- mini column chart (slide A10 · cash balance) ---- */
+.minibars{ display:flex; align-items:flex-end; gap:.25rem; height:clamp(96px,16vh,140px); margin:1.2rem 0 .3rem; }
+.minibars__col{ flex:1; display:flex; flex-direction:column; align-items:center; gap:.3rem; height:100%; justify-content:flex-end; }
+.minibars__bar{ width:100%; max-width:26px; border-radius:5px 5px 0 0; background:linear-gradient(180deg,var(--pvep-blue),#005f91); height:0; transition:height .9s var(--ac-ease); transition-delay:calc(.2s + var(--i,0)*.05s); position:relative; }
+.ac-on .minibars__bar{ height:var(--h); }
+.minibars__bar.is-spike{ background:linear-gradient(180deg,var(--warning),#c2410c); }
+.minibars__bar b{ position:absolute; top:-1.15rem; left:50%; transform:translateX(-50%); font-family:var(--font-display); font-size:.6rem; font-weight:800; color:var(--warning); white-space:nowrap; opacity:0; transition:opacity .3s 1s; }
+.ac-on .minibars__bar b{ opacity:1; }
+.minibars__x{ font-size:.56rem; color:var(--ink-500); font-weight:600; }
+.minibase{ display:flex; align-items:center; gap:.4rem; font-size:.72rem; color:var(--ink-600); }
+.minibase i{ width:18px; height:0; border-top:2px dashed var(--pvep-green); display:inline-block; }
+
+/* ---- finding cards (slide A12) ---- */
+.findcards{ display:flex; flex-direction:column; gap:.55rem; }
+.findcard{ display:flex; gap:.8rem; align-items:flex-start; background:#fff; border:1px solid var(--ac-line); border-left:4px solid var(--ink-500); border-radius:12px; padding:.7rem .9rem; box-shadow:0 6px 18px rgba(10,42,74,.05); transition:transform .25s var(--ac-ease), box-shadow .25s; }
+.findcard:hover{ transform:translateX(5px); box-shadow:0 14px 30px rgba(10,42,74,.12); }
+.findcard--r{ border-left-color:var(--danger); } .findcard--y{ border-left-color:var(--warning); } .findcard--b{ border-left-color:var(--pvep-blue); }
+.findcard__no{ flex:none; width:28px; height:28px; border-radius:8px; display:grid; place-content:center; font-family:var(--font-display); font-weight:800; font-size:.9rem; color:#fff; background:var(--ink-500); }
+.findcard--r .findcard__no{ background:var(--danger); } .findcard--y .findcard__no{ background:var(--warning); } .findcard--b .findcard__no{ background:var(--pvep-blue); }
+.findcard__b{ font-size:.85rem; line-height:1.4; color:var(--ink-600); }
+.findcard__b b{ color:var(--pvep-navy); }
+
+/* ---- status scorecards (slide B9) ---- */
+.scards{ display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; }
+.scard{ background:#fff; border:1px solid var(--ac-line); border-top:4px solid var(--warning); border-radius:16px; padding:1rem 1.1rem; box-shadow:0 10px 30px rgba(10,42,74,.06); display:flex; flex-direction:column; gap:.5rem; transition:transform .28s var(--ac-ease), box-shadow .28s; }
+.scard--ok{ border-top-color:var(--pvep-green); }
+.scard:hover{ transform:translateY(-6px); box-shadow:0 22px 48px rgba(0,131,199,.16); }
+.scard__top{ display:flex; align-items:center; gap:.6rem; }
+.scard__ic{ flex:none; width:36px; height:36px; border-radius:10px; display:grid; place-content:center; color:var(--warning); background:rgba(217,119,6,.12); }
+.scard--ok .scard__ic{ color:var(--pvep-green); background:rgba(0,176,80,.12); }
+.scard__ic svg{ width:20px; height:20px; }
+.scard__t{ font-family:var(--font-display); font-weight:800; color:var(--pvep-navy); font-size:clamp(.86rem,1.5vw,1.05rem); line-height:1.15; }
+.scard__st{ display:inline-flex; align-items:center; gap:.3rem; align-self:flex-start; font-size:.72rem; font-weight:700; padding:.22rem .6rem; border-radius:99px; color:#B45309; background:rgba(217,119,6,.14); }
+.scard--ok .scard__st{ color:#15803D; background:rgba(0,176,80,.15); }
+.scard__d{ font-size:.8rem; color:var(--ink-600); line-height:1.4; }
+@media (max-width:900px){ .scards{ grid-template-columns:1fr; } }
+
+/* ---- recommendation summary chips + row hover (slide A13) ---- */
+.nq-sum{ display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center; margin-bottom:1rem; }
+.nq-sum__chip{ display:inline-flex; align-items:center; gap:.45rem; font-family:var(--font-display); font-weight:700; font-size:.82rem; color:var(--ink-700); padding:.4rem .9rem; border-radius:99px; border:1px solid var(--ac-line); background:#fff; }
+.nq-sum__chip b{ font-size:1.05rem; color:var(--pvep-navy); }
+.nq-sum__dot{ width:10px; height:10px; border-radius:50%; flex:none; }
+.nq-list li{ border-radius:8px; transition:background .2s ease, transform .2s ease; }
+.nq-list li:hover{ background:rgba(0,131,199,.06); transform:translateX(3px); }
+
 /* --- Mobile Layout Overrides --- */
 @media (max-width: 820px) {
   .cards--4, .cards--3, .tri { grid-template-columns: 1fr !important; }
@@ -1546,13 +1678,13 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
         <div>
           <h4 style="color:var(--pvep-navy); font-size:1rem; margin-bottom:0.6rem; display:flex; align-items:center; gap:0.4rem;"><span style="font-size:1.2rem">📋</span> Chỉ đạo HĐTV — 7/8 hoàn thành</h4>
-          <ul style="margin-left:1.2rem; font-size:0.9rem; color:var(--ink-700); line-height:1.6;">
-            <li>Báo cáo Petrovietnam tình hình triển khai Dự án Lô 05-1(a) (Công văn số CV 361/TDKT-TCĐT ngày 13/02/2026).</li>
-            <li>Đạt được phê duyệt CTTDDKBS và Báo cáo SDV tương ứng liên quan đến giếng khoan (“GK”) DH-18X (CT TDDKBS: QĐ 1146/QĐ-CNNL ngày 09/02/2026 và BCSDV: QĐ 207/QĐ-TDKT ngày 13/02/2026).</li>
-            <li>Xây dựng và báo cáo phương án tài chính và huy động vốn cho các dự án (CV 306/CVNB-HXD ngày 05/6/2025).</li>
-            <li>Báo cáo và trình HĐTV thông qua Kế hoạch PTM khu vực ĐHN, Lô 05-1(a) (CV 171/TDKT-HĐTV ngày 14/01/2025).</li>
-            <li>Trình BCSDV để thực hiện Kế hoạch PTM khu vực ĐHN, Lô 05-1(a) (NQ 1455/NQ-DKVN ngày 28/02/2025).</li>
-            <li>Đạt được phê duyệt RFDP khối D Lô 05-1(a) (QĐ số 10227/QĐ-CNNL ngày 13/11/2025).</li>
+          <ul style="margin-left:1.2rem; font-size:0.9rem; color:var(--ink-700); line-height:1.55;">
+            <li>Báo cáo Petrovietnam triển khai Lô 05-1(a) <span style="color:var(--ink-500)">(CV 361 · 13/02/2026)</span></li>
+            <li>Phê duyệt CTTDDKBS &amp; BCSDV giếng DH-18X <span style="color:var(--ink-500)">(QĐ 1146 · 09/02/2026; QĐ 207 · 13/02/2026)</span></li>
+            <li>Phương án tài chính &amp; huy động vốn các dự án <span style="color:var(--ink-500)">(CV 306 · 05/6/2025)</span></li>
+            <li>Trình HĐTV Kế hoạch PTM khu vực ĐHN <span style="color:var(--ink-500)">(CV 171 · 14/01/2025)</span></li>
+            <li>Trình BCSDV thực hiện KH PTM ĐHN <span style="color:var(--ink-500)">(NQ 1455 · 28/02/2025)</span></li>
+            <li>Phê duyệt RFDP khối D Lô 05-1(a) <span style="color:var(--ink-500)">(QĐ 10227 · 13/11/2025)</span></li>
           </ul>
         </div>
         <div>
@@ -1634,14 +1766,27 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
     </div>
     <div class="ksnb">
       <div class="ksnb__diagram ac-reveal" style="--i:0">
-        <div class="ringwrap">
-          <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
-            <circle class="ring__bg" cx="60" cy="60" r="52"></circle>
-            <circle class="ring__val ac-ring-val" cx="60" cy="60" r="52" style="stroke:var(--pvep-blue); --circ:327; --p:.829"></circle>
+        <div class="donut" id="donut7">
+          <svg class="donut__svg" viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="donut__track" cx="60" cy="60" r="52"></circle>
+            <circle class="donut__seg" data-label="Vận hành" data-value="208" data-pct="82,9"
+                    cx="60" cy="60" r="52" pathLength="327"
+                    style="--seg:271; --i:0; stroke:var(--pvep-blue); color:var(--pvep-blue); stroke-dashoffset:0"></circle>
+            <circle class="donut__seg" data-label="Lĩnh vực khác" data-value="43" data-pct="17,1"
+                    cx="60" cy="60" r="52" pathLength="327"
+                    style="--seg:56; --i:1; stroke:#94A3B8; color:#94A3B8; stroke-dashoffset:-271"></circle>
           </svg>
-          <span class="ringwrap__txt" style="color:var(--pvep-blue)">82,9%</span>
+          <div class="donut__center">
+            <span class="donut__pct" style="color:var(--pvep-blue)">82,9%</span>
+            <span class="donut__lbl">Vận hành</span>
+            <span class="donut__sub">208 / 251</span>
+          </div>
         </div>
-        <div style="text-align:center;font-size:var(--small-size);color:var(--ink-600);margin-top:.5rem;max-width:18ch">Tỷ trọng văn bản <b>lĩnh vực Vận hành</b> (208/251)</div>
+        <div class="donut__legend">
+          <button type="button" class="dn-lg" data-target="0"><i style="background:var(--pvep-blue)"></i>Vận hành <b>208</b></button>
+          <button type="button" class="dn-lg" data-target="1"><i style="background:#94A3B8"></i>Lĩnh vực khác <b>43</b></button>
+        </div>
+        <div style="text-align:center;font-size:var(--small-size);color:var(--ink-600);margin-top:.5rem;max-width:20ch">Cơ cấu <b>251 VBQLNB</b> theo lĩnh vực</div>
       </div>
       <div>
         <div class="kgrid" style="grid-template-columns:repeat(3,1fr)">
@@ -1653,6 +1798,37 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
       </div>
     </div>
   </div></div>
+  <script>
+  (function(){
+    var donut=document.getElementById('donut7');
+    if(!donut) return;
+    var segs=donut.querySelectorAll('.donut__seg');
+    var pctEl=donut.querySelector('.donut__pct');
+    var lblEl=donut.querySelector('.donut__lbl');
+    var subEl=donut.querySelector('.donut__sub');
+    var total=251, defColor='var(--pvep-blue)';
+    function show(seg){
+      donut.classList.add('is-hover');
+      segs.forEach(function(s){ s.classList.toggle('is-active', s===seg); });
+      pctEl.textContent=seg.dataset.pct+'%';
+      pctEl.style.color=seg.style.color;
+      lblEl.textContent=seg.dataset.label;
+      subEl.textContent=seg.dataset.value+' / '+total;
+    }
+    function reset(){
+      donut.classList.remove('is-hover');
+      segs.forEach(function(s){ s.classList.remove('is-active'); });
+      pctEl.textContent='82,9%'; pctEl.style.color=defColor;
+      lblEl.textContent='Vận hành'; subEl.textContent='208 / 251';
+    }
+    segs.forEach(function(s){ s.addEventListener('mouseenter', function(){ show(s); }); });
+    donut.parentElement.querySelectorAll('.dn-lg').forEach(function(b){
+      b.addEventListener('mouseenter', function(){ show(segs[+b.dataset.target]); });
+      b.addEventListener('mouseleave', reset);
+    });
+    donut.addEventListener('mouseleave', reset);
+  })();
+  </script>
 </section>
 
 <!-- ===================== A3 — [1.1] CTHĐ&NS chưa đồng bộ ===================== -->
@@ -1746,29 +1922,40 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
         <div class="s5__step ac-reveal" style="--i:4"><b>5</b><span>Trình UBQL / Petrovietnam / BCT</span></div>
       </div>
     </div>
-    <div class="duo duo--2">
-      <div class="duo__card ac-reveal" style="--i:0">
-        <span class="duo__no">⚠</span>
-        <h3>05 điểm còn thiếu</h3>
-        <ul class="dlist dlist--bad" style="margin-top:.3rem">
-          <li><b>04 QT trùng số hiệu &amp; ngày</b> (QT.CNM.01); QT FDP chỉ áp dụng dự án không đầu tư giàn (Phòng ĐC-CNM), bỏ sót ODP/FDP có giàn (Phòng DEV)</li>
-          <li>Chưa quy định thời hạn từng khâu, cơ chế xử lý ý kiến khác nhau, quản lý hồ sơ nhiều vòng (PVEP/Petrovietnam/BCT)</li>
-          <li>Thiếu tham vấn PVEP ≥15 ngày (Đ.9 QĐ 1398)</li>
-          <li>Chốt kiểm soát (xác định SOW, kiểm tra/phê duyệt từng bộ phận) chưa văn bản hóa</li>
-          <li>Thiếu lớp kiểm soát sau phê duyệt (theo dõi thực hiện / thay đổi ODP)</li>
-        </ul>
-      </div>
-      <div class="duo__card duo__card--g ac-reveal" style="--i:1">
-        <span class="duo__no" style="color:var(--pvep-green)">✔</span>
-        <h3>Kiến nghị sửa 04 QT.CNM.01</h3>
-        <ul class="dlist dlist--g" style="margin-top:.3rem">
-          <li>Chuẩn hóa hồ sơ / tờ trình; tiêu chí + thời hạn từng bước</li>
-          <li>Cơ chế xử lý ý kiến khác nhau + bước tham vấn PVEP</li>
-          <li>Theo dõi trạng thái hồ sơ qua các vòng; hiệu chỉnh số hiệu tránh trùng</li>
-          <li>Giám sát sau phê duyệt &amp; quản lý thay đổi; mở rộng QT FDP cho cả dự án có giàn</li>
-        </ul>
-      </div>
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-top:clamp(.5rem,1.6vh,1rem); flex-wrap:wrap;">
+      <h3 style="font-family:var(--font-display); color:var(--pvep-navy); font-weight:800; font-size:clamp(1rem,2vw,1.35rem);"><span style="color:var(--danger)">05 điểm còn thiếu</span> → <span style="color:var(--pvep-green)">Kiến nghị sửa 04 QT.CNM.01</span></h3>
+      <span style="font-size:.74rem; color:var(--ink-500); font-weight:600;">↻ Di chuột / chạm vào thẻ để xem kiến nghị</span>
     </div>
+    <div class="flipgrid ac-reveal" style="--i:0" id="flip9">
+      <div class="flipcard"><div class="flipcard__in">
+        <div class="flipcard__f"><span class="flipcard__no">1</span><span class="flipcard__t">Trùng số hiệu &amp; bỏ sót giàn</span><span class="flipcard__d"><b>04 QT trùng số hiệu/ngày</b> (QT.CNM.01); QT FDP bỏ sót ODP/FDP có giàn (Phòng DEV).</span><span class="flipcard__tag">Tồn tại</span></div>
+        <div class="flipcard__b"><span class="flipcard__no">1</span><span class="flipcard__t">Hiệu chỉnh &amp; mở rộng</span><span class="flipcard__d">Hiệu chỉnh số hiệu tránh trùng; mở rộng QT FDP cho cả dự án có giàn.</span><span class="flipcard__tag">Kiến nghị</span></div>
+      </div></div>
+      <div class="flipcard"><div class="flipcard__in">
+        <div class="flipcard__f"><span class="flipcard__no">2</span><span class="flipcard__t">Thời hạn &amp; quản lý hồ sơ</span><span class="flipcard__d">Chưa quy định thời hạn từng khâu, cơ chế xử lý ý kiến, quản lý hồ sơ nhiều vòng (PVEP/PVN/BCT).</span><span class="flipcard__tag">Tồn tại</span></div>
+        <div class="flipcard__b"><span class="flipcard__no">2</span><span class="flipcard__t">Tiêu chí + thời hạn</span><span class="flipcard__d">Tiêu chí &amp; thời hạn từng bước; theo dõi trạng thái hồ sơ qua các vòng.</span><span class="flipcard__tag">Kiến nghị</span></div>
+      </div></div>
+      <div class="flipcard"><div class="flipcard__in">
+        <div class="flipcard__f"><span class="flipcard__no">3</span><span class="flipcard__t">Thiếu tham vấn PVEP</span><span class="flipcard__d">Thiếu bước tham vấn PVEP ≥15 ngày <b>(Đ.9 QĐ 1398)</b>.</span><span class="flipcard__tag">Tồn tại</span></div>
+        <div class="flipcard__b"><span class="flipcard__no">3</span><span class="flipcard__t">Bổ sung tham vấn</span><span class="flipcard__d">Bổ sung bước tham vấn PVEP ≥15 ngày &amp; cơ chế xử lý ý kiến khác nhau.</span><span class="flipcard__tag">Kiến nghị</span></div>
+      </div></div>
+      <div class="flipcard"><div class="flipcard__in">
+        <div class="flipcard__f"><span class="flipcard__no">4</span><span class="flipcard__t">Chốt kiểm soát chưa rõ</span><span class="flipcard__d">Chốt kiểm soát (xác định SOW, kiểm tra/phê duyệt từng bộ phận) chưa văn bản hóa.</span><span class="flipcard__tag">Tồn tại</span></div>
+        <div class="flipcard__b"><span class="flipcard__no">4</span><span class="flipcard__t">Văn bản hóa chốt KS</span><span class="flipcard__d">Chuẩn hóa hồ sơ/tờ trình; văn bản hóa chốt kiểm soát từng bước.</span><span class="flipcard__tag">Kiến nghị</span></div>
+      </div></div>
+      <div class="flipcard"><div class="flipcard__in">
+        <div class="flipcard__f"><span class="flipcard__no">5</span><span class="flipcard__t">Thiếu kiểm soát sau duyệt</span><span class="flipcard__d">Thiếu lớp kiểm soát sau phê duyệt (theo dõi thực hiện / thay đổi ODP).</span><span class="flipcard__tag">Tồn tại</span></div>
+        <div class="flipcard__b"><span class="flipcard__no">5</span><span class="flipcard__t">Giám sát sau duyệt</span><span class="flipcard__d">Giám sát sau phê duyệt &amp; quản lý thay đổi (ODP/FDP).</span><span class="flipcard__tag">Kiến nghị</span></div>
+      </div></div>
+    </div>
+    <script>
+    (function(){
+      var g=document.getElementById('flip9'); if(!g) return;
+      g.querySelectorAll('.flipcard').forEach(function(c){
+        c.addEventListener('click', function(){ c.classList.toggle('is-flip'); });
+      });
+    })();
+    </script>
   </div></div>
 </section>
 
@@ -1830,18 +2017,18 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
       </div>
     </div>
     <div class="duo__card ac-reveal" style="--i:2; margin-top:clamp(.45rem,1.4vh,1rem)">
-      <h3 style="margin-bottom:.3rem">1.4.3 · Nội dung quy định chưa đầy đủ</h3>
-      <ul class="dlist dlist--bad" style="display:grid; grid-template-columns:repeat(3,1fr); gap:.2rem 1rem; margin-top:.2rem">
-        <li>Phân loại gói chỉ 2 ngưỡng (≤/&gt;100K USD) — thiếu kiểm soát riêng EPCI/giàn khoan/FSO</li>
-        <li>Thiếu thời hạn xử lý từng khâu</li>
-        <li>Thiếu nội dung tờ trình / hồ sơ bắt buộc</li>
-        <li>Thiếu tiêu chí thẩm định OCS/CS/HSMT/KQLCNT &amp; cơ sở lập dự toán</li>
-        <li>Thiếu cơ chế xử lý ý kiến khác nhau</li>
-        <li>Thiếu xử lý tình huống (đổi KQLCNT đã duyệt, chưa ký HĐ)</li>
-        <li>Thiếu theo dõi trạng thái hồ sơ xuyên suốt</li>
-        <li>Thiếu cảnh báo sớm phát sinh vượt thẩm quyền + phân tích nguyên nhân gốc</li>
-        <li>KTGS chưa gắn với kiểm tra định kỳ PVEP</li>
-      </ul>
+      <h3 style="margin-bottom:.45rem">1.4.3 · Nội dung quy định chưa đầy đủ <span style="font-family:var(--font-display); font-size:.8rem; color:var(--caution); background:rgba(217,119,6,.1); padding:.15rem .55rem; border-radius:99px; vertical-align:middle;">09 khoảng trống</span></h3>
+      <div class="gaptiles">
+        <div class="gaptile"><span class="gaptile__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="14" y="8" width="3" height="10"/></svg></span><span class="gaptile__b"><span class="gaptile__t">Phân loại gói thầu</span><span class="gaptile__d">Chỉ 2 ngưỡng (≤/&gt;100K) — thiếu kiểm soát EPCI/giàn/FSO</span></span></div>
+        <div class="gaptile"><span class="gaptile__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="gaptile__b"><span class="gaptile__t">Thời hạn xử lý</span><span class="gaptile__d">Thiếu thời hạn từng khâu</span></span></div>
+        <div class="gaptile"><span class="gaptile__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><span class="gaptile__b"><span class="gaptile__t">Tờ trình &amp; hồ sơ</span><span class="gaptile__d">Thiếu nội dung tờ trình / hồ sơ bắt buộc</span></span></div>
+        <div class="gaptile"><span class="gaptile__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg></span><span class="gaptile__b"><span class="gaptile__t">Tiêu chí thẩm định</span><span class="gaptile__d">OCS/CS/HSMT/KQLCNT &amp; cơ sở dự toán</span></span></div>
+        <div class="gaptile"><span class="gaptile__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span><span class="gaptile__b"><span class="gaptile__t">Xử lý ý kiến</span><span class="gaptile__d">Thiếu cơ chế xử lý ý kiến khác nhau</span></span></div>
+        <div class="gaptile"><span class="gaptile__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg></span><span class="gaptile__b"><span class="gaptile__t">Xử lý tình huống</span><span class="gaptile__d">Đổi KQLCNT đã duyệt, chưa ký HĐ</span></span></div>
+        <div class="gaptile"><span class="gaptile__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span><span class="gaptile__b"><span class="gaptile__t">Theo dõi hồ sơ</span><span class="gaptile__d">Thiếu theo dõi trạng thái xuyên suốt</span></span></div>
+        <div class="gaptile"><span class="gaptile__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="gaptile__b"><span class="gaptile__t">Cảnh báo sớm</span><span class="gaptile__d">Phát sinh vượt thẩm quyền + nguyên nhân gốc</span></span></div>
+        <div class="gaptile"><span class="gaptile__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span><span class="gaptile__b"><span class="gaptile__t">Gắn KTGS–PVEP</span><span class="gaptile__d">Chưa gắn với kiểm tra định kỳ PVEP</span></span></div>
+      </div>
     </div>
   </div></div>
 </section>
@@ -1922,8 +2109,14 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
         <div class="rec"><span class="rec__tag">KN</span><span>Sửa đổi đồng bộ QĐ 1333 &amp; QT.QTNNL.19.</span></div>
       </div>
       <div class="tri__card ac-reveal" style="--i:1"><span class="tri__k">1.6.2 · Thực tập</span>
-        <ul class="dlist dlist--bad"><li>Mở rộng đối tượng (cả CBNV Petrovietnam/PVEP)</li><li>Hạ tiêu chuẩn tiếp nhận: <b>TBC &lt;5.0</b> so với &lt;7.0 của PVEP</li></ul>
-        <div class="rec"><span class="rec__tag">KN</span><span>PVEP-NCS cần rà soát Quy trình quản lý và tiếp nhận nhân sự thực tập, làm rõ cơ sở của việc mở rộng đối tượng áp dụng và điều chỉnh tiêu chuẩn tiếp nhận so với quy định của PVEP.</span></div>
+        <ul class="dlist dlist--bad"><li>Mở rộng đối tượng (cả CBNV Petrovietnam/PVEP)</li><li>Hạ tiêu chuẩn tiếp nhận điểm TBC</li></ul>
+        <div style="font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-500); margin-top:.3rem">Tiêu chuẩn điểm TBC tiếp nhận</div>
+        <div class="cmp">
+          <div class="cmp__row"><span class="cmp__lbl">PVEP-NCS</span><span class="cmp__track"><span class="cmp__fill" style="--w:50%; background:var(--danger)"></span></span><span class="cmp__val" style="color:var(--danger)">5,0</span></div>
+          <div class="cmp__row"><span class="cmp__lbl">Chuẩn PVEP</span><span class="cmp__track"><span class="cmp__fill" style="--w:70%; background:var(--pvep-green)"></span></span><span class="cmp__val" style="color:var(--success)">7,0</span></div>
+        </div>
+        <div class="cmp__note">▼ Hạ chuẩn 2,0 điểm so với PVEP</div>
+        <div class="rec"><span class="rec__tag">KN</span><span>Rà soát quy trình tiếp nhận thực tập; làm rõ cơ sở mở rộng đối tượng &amp; điều chỉnh tiêu chuẩn so với PVEP.</span></div>
       </div>
       <div class="tri__card ac-reveal" style="--i:2"><span class="tri__k">1.6.3 · Quy chế TCHĐ (QĐ 340)</span>
         <ul class="dlist dlist--bad"><li>Chuyển vai trò Phòng kỹ thuật CN từ "chủ trì" → "phối hợp" chưa đồng nhất QĐ 1918</li><li>Chức năng chủ trì lập/trình CTTKTD, ODP, FDP, KH thu dọn mỏ đã chuyển về Ban kỹ thuật BMĐH → còn chồng chéo "chủ trì"</li></ul>
@@ -1997,9 +2190,24 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
         <ul class="dlist dlist--g" style="margin-top:.3rem">
           <li>Lô 05-1(a) cấp 3 lần/tháng — số dư bình quân <b>2,06 tr.USD ≈ 8,2%</b></li>
           <li>Đột biến T9/2025 lên <b>10,4 tr.USD (~39%)</b> do chưa đủ chứng từ T&amp;I/EPCI VSP (~237 tỷ đ)</li>
-          <li>Sông Đốc cấp 3 lần — tồn do hủy giếng 21/5/2025</li>
-          <li>Cơ bản tuân thủ <b>QT.TCĐT.09</b>; số dư tăng mang tính thời điểm</li>
+          <li>Sông Đốc cấp 3 lần — tồn do hủy giếng 21/5/2025; cơ bản tuân thủ <b>QT.TCĐT.09</b></li>
         </ul>
+        <div style="font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-500); margin-top:.5rem">Số dư tiền/định mức theo tháng 2025 (%)</div>
+        <div class="minibars">
+          <div class="minibars__col" style="--i:0"><div class="minibars__bar" style="--h:21%"></div><span class="minibars__x">T1</span></div>
+          <div class="minibars__col" style="--i:1"><div class="minibars__bar" style="--h:18%"></div><span class="minibars__x">T2</span></div>
+          <div class="minibars__col" style="--i:2"><div class="minibars__bar" style="--h:23%"></div><span class="minibars__x">T3</span></div>
+          <div class="minibars__col" style="--i:3"><div class="minibars__bar" style="--h:21%"></div><span class="minibars__x">T4</span></div>
+          <div class="minibars__col" style="--i:4"><div class="minibars__bar" style="--h:26%"></div><span class="minibars__x">T5</span></div>
+          <div class="minibars__col" style="--i:5"><div class="minibars__bar" style="--h:19%"></div><span class="minibars__x">T6</span></div>
+          <div class="minibars__col" style="--i:6"><div class="minibars__bar" style="--h:23%"></div><span class="minibars__x">T7</span></div>
+          <div class="minibars__col" style="--i:7"><div class="minibars__bar" style="--h:28%"></div><span class="minibars__x">T8</span></div>
+          <div class="minibars__col" style="--i:8"><div class="minibars__bar is-spike" style="--h:100%"><b>39%</b></div><span class="minibars__x">T9</span></div>
+          <div class="minibars__col" style="--i:9"><div class="minibars__bar" style="--h:31%"></div><span class="minibars__x">T10</span></div>
+          <div class="minibars__col" style="--i:10"><div class="minibars__bar" style="--h:21%"></div><span class="minibars__x">T11</span></div>
+          <div class="minibars__col" style="--i:11"><div class="minibars__bar" style="--h:23%"></div><span class="minibars__x">T12</span></div>
+        </div>
+        <div class="minibase"><i></i> Bình quân ~8,2% · đột biến T9 do chứng từ T&amp;I/EPCI VSP</div>
       </div>
       <div class="duo__card ac-reveal" style="--i:1">
         <span class="duo__no" style="color:var(--warning)">📦</span>
@@ -2029,17 +2237,16 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
     </div>
 
     <!-- Interactive Table -->
-    <div class="ac-reveal" style="--i:2; margin-top:1.5rem; background:#fff; border-radius:16px; box-shadow:0 12px 40px rgba(0,0,0,0.06); border:1px solid var(--ac-line); overflow:hidden;">
-      
+    <div class="debt-wrap ac-reveal" style="--i:2;">
       <!-- Filters -->
-      <div style="background:#f8fafc; padding:1rem 1.5rem; border-bottom:1px solid var(--ac-line); display:flex; gap:1.5rem; align-items:center;">
-        <div style="font-size:0.9rem; font-weight:600; color:var(--ink-700);">Lọc dữ liệu:</div>
-        <select id="debtTypeFilter" onchange="filterDebts()" style="padding:0.4rem; border-radius:6px; border:1px solid var(--ac-line);">
+      <div class="debt-bar">
+        <span class="debt-bar__lbl">Lọc dữ liệu</span>
+        <select id="debtTypeFilter" class="debt-sel" onchange="filterDebts()">
           <option value="all">Tất cả (Phải thu / Phải trả)</option>
           <option value="pay">Phải trả</option>
           <option value="rec">Phải thu</option>
         </select>
-        <select id="debtAgeFilter" onchange="filterDebts()" style="padding:0.4rem; border-radius:6px; border:1px solid var(--ac-line);">
+        <select id="debtAgeFilter" class="debt-sel" onchange="filterDebts()">
           <option value="all">Mọi độ tuổi nợ</option>
           <option value="trong">Trong hạn</option>
           <option value="gt2">> 2 năm</option>
@@ -2048,65 +2255,65 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
       </div>
 
       <!-- Table -->
-      <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.95rem;">
+      <table class="debt-tbl">
         <thead>
-          <tr style="background:linear-gradient(90deg,rgba(0,131,199,0.08),rgba(0,131,199,0.04),rgba(0,131,199,0.08)); background-size:200% 100%; animation:ac-shimmer 3s ease-in-out infinite; color:var(--pvep-navy); border-bottom:2px solid rgba(0,131,199,0.2);">
-            <th style="padding:1rem 1.5rem; font-weight:700;">Khoản mục</th>
-            <th style="padding:1rem 1.5rem; font-weight:700;">Lô / Dự án</th>
-            <th style="padding:1rem 1.5rem; font-weight:700; text-align:right;">Giá trị</th>
-            <th style="padding:1rem 1.5rem; font-weight:700; text-align:center;">Tuổi nợ</th>
-            <th style="padding:1rem 1.5rem; font-weight:700;">Ghi chú</th>
+          <tr>
+            <th>Khoản mục</th>
+            <th>Lô / Dự án</th>
+            <th class="num">Giá trị</th>
+            <th class="ctr">Tuổi nợ</th>
+            <th>Ghi chú</th>
           </tr>
         </thead>
         <tbody id="debtTableBody">
-          <tr class="debt-row" data-type="pay" data-age="trong" style="border-bottom:1px solid var(--ac-line); transition:all .3s ease; cursor:pointer;" onmouseenter="this.style.background='rgba(0,131,199,0.06)';this.style.transform='scale(1.01)'" onmouseleave="this.style.background='';this.style.transform=''">
-            <td style="padding:1rem 1.5rem; font-weight:600; color:var(--ink-700);">Phải trả</td>
-            <td style="padding:1rem 1.5rem;">Lô 05-1(a)</td>
-            <td style="padding:1rem 1.5rem; text-align:right; font-weight:bold;">55,35 tr.USD</td>
-            <td style="padding:1rem 1.5rem; text-align:center;"><span style="background:var(--pvep-green); color:#fff; padding:0.2rem 0.6rem; border-radius:99px; font-size:0.8rem; font-weight:600;">Trong hạn</span></td>
-            <td style="padding:1rem 1.5rem; color:var(--ink-600); font-size:0.85rem;">Phần lớn trong hạn</td>
+          <tr class="debt-row" data-type="pay" data-age="trong">
+            <td><span class="t-type t-pay"><i></i>Phải trả</span></td>
+            <td>Lô 05-1(a)</td>
+            <td class="num">55,35 tr.USD</td>
+            <td class="ctr"><span class="age age--ok">Trong hạn</span></td>
+            <td class="note-c">Phần lớn trong hạn</td>
           </tr>
-          <tr class="debt-row" data-type="pay" data-age="gt2" style="border-bottom:1px solid var(--ac-line);">
-            <td style="padding:1rem 1.5rem; font-weight:600; color:var(--ink-700);">Phải trả</td>
-            <td style="padding:1rem 1.5rem;">Lô 05-1(a)</td>
-            <td style="padding:1rem 1.5rem; text-align:right; font-weight:bold;">919,4 nghìn USD</td>
-            <td style="padding:1rem 1.5rem; text-align:center;"><span style="background:var(--warning); color:#fff; padding:0.2rem 0.6rem; border-radius:99px; font-size:0.8rem; font-weight:600;">> 2 năm</span></td>
-            <td style="padding:1rem 1.5rem; color:var(--ink-600); font-size:0.85rem;">Quá hạn trên 2 năm</td>
+          <tr class="debt-row" data-type="pay" data-age="gt2">
+            <td><span class="t-type t-pay"><i></i>Phải trả</span></td>
+            <td>Lô 05-1(a)</td>
+            <td class="num">919,4 ng.USD</td>
+            <td class="ctr"><span class="age age--warn">&gt; 2 năm</span></td>
+            <td class="note-c">Quá hạn trên 2 năm</td>
           </tr>
-          <tr class="debt-row" data-type="pay" data-age="gt5" style="border-bottom:1px solid var(--ac-line); background:rgba(220,38,38,0.04);">
-            <td style="padding:1rem 1.5rem; font-weight:600; color:var(--danger);">Phải trả</td>
-            <td style="padding:1rem 1.5rem;">Lô 05-1(a)</td>
-            <td style="padding:1rem 1.5rem; text-align:right; font-weight:bold; color:var(--danger);">0,84 tr.USD</td>
-            <td style="padding:1rem 1.5rem; text-align:center;"><span style="background:var(--danger); color:#fff; padding:0.2rem 0.6rem; border-radius:99px; font-size:0.8rem; font-weight:600;">> 5 năm</span></td>
-            <td style="padding:1rem 1.5rem; color:var(--ink-600); font-size:0.85rem;">PTSC Marine 487K (nhiên liệu 2014-15) + 351K chưa cấp vốn (BCĐTTDMR)</td>
+          <tr class="debt-row is-red" data-type="pay" data-age="gt5">
+            <td><span class="t-type t-pay"><i></i>Phải trả</span></td>
+            <td>Lô 05-1(a)</td>
+            <td class="num">0,84 tr.USD</td>
+            <td class="ctr"><span class="age age--red">&gt; 5 năm</span></td>
+            <td class="note-c">PTSC Marine 487K (nhiên liệu 2014–15) + 351K chưa cấp vốn (BCĐTTDMR)</td>
           </tr>
-          <tr class="debt-row" data-type="pay" data-age="trong" style="border-bottom:1px solid var(--ac-line); transition:all .3s ease; cursor:pointer;" onmouseenter="this.style.background='rgba(0,131,199,0.06)';this.style.transform='scale(1.01)'" onmouseleave="this.style.background='';this.style.transform=''">
-            <td style="padding:1rem 1.5rem; font-weight:600; color:var(--ink-700);">Phải trả</td>
-            <td style="padding:1rem 1.5rem;">Schlumberger</td>
-            <td style="padding:1rem 1.5rem; text-align:right; font-weight:bold;">0,08 tr.USD</td>
-            <td style="padding:1rem 1.5rem; text-align:center;"><span style="background:var(--pvep-green); color:#fff; padding:0.2rem 0.6rem; border-radius:99px; font-size:0.8rem; font-weight:600;">Trong hạn</span></td>
-            <td style="padding:1rem 1.5rem; color:var(--ink-600); font-size:0.85rem;">Chưa cấp vốn (đổi phần mềm well model)</td>
+          <tr class="debt-row" data-type="pay" data-age="trong">
+            <td><span class="t-type t-pay"><i></i>Phải trả</span></td>
+            <td>Schlumberger</td>
+            <td class="num">0,08 tr.USD</td>
+            <td class="ctr"><span class="age age--ok">Trong hạn</span></td>
+            <td class="note-c">Chưa cấp vốn (đổi phần mềm well model)</td>
           </tr>
-          <tr class="debt-row" data-type="rec" data-age="trong" style="border-bottom:1px solid var(--ac-line); transition:all .3s ease; cursor:pointer;" onmouseenter="this.style.background='rgba(0,131,199,0.06)';this.style.transform='scale(1.01)'" onmouseleave="this.style.background='';this.style.transform=''">
-            <td style="padding:1rem 1.5rem; font-weight:600; color:var(--ink-700);">Phải thu</td>
-            <td style="padding:1rem 1.5rem;">Lô 05-1(a)</td>
-            <td style="padding:1rem 1.5rem; text-align:right; font-weight:bold;">261,1 nghìn USD</td>
-            <td style="padding:1rem 1.5rem; text-align:center;"><span style="background:var(--pvep-green); color:#fff; padding:0.2rem 0.6rem; border-radius:99px; font-size:0.8rem; font-weight:600;">Trong hạn</span></td>
-            <td style="padding:1rem 1.5rem; color:var(--ink-600); font-size:0.85rem;">Phải thu thông thường</td>
+          <tr class="debt-row" data-type="rec" data-age="trong">
+            <td><span class="t-type t-rec"><i></i>Phải thu</span></td>
+            <td>Lô 05-1(a)</td>
+            <td class="num">261,1 ng.USD</td>
+            <td class="ctr"><span class="age age--ok">Trong hạn</span></td>
+            <td class="note-c">Phải thu thông thường</td>
           </tr>
-          <tr class="debt-row" data-type="rec" data-age="gt5" style="border-bottom:1px solid var(--ac-line); background:rgba(220,38,38,0.04);">
-            <td style="padding:1rem 1.5rem; font-weight:600; color:var(--danger);">Phải thu</td>
-            <td style="padding:1rem 1.5rem;">Lô 05-1(a)</td>
-            <td style="padding:1rem 1.5rem; text-align:right; font-weight:bold; color:var(--danger);">93,48 nghìn USD</td>
-            <td style="padding:1rem 1.5rem; text-align:center;"><span style="background:var(--danger); color:#fff; padding:0.2rem 0.6rem; border-radius:99px; font-size:0.8rem; font-weight:600;">> 5 năm</span></td>
-            <td style="padding:1rem 1.5rem; color:var(--ink-600); font-size:0.85rem;">PVI South (đối ứng phí BH Lô 09-2/09)</td>
+          <tr class="debt-row is-red" data-type="rec" data-age="gt5">
+            <td><span class="t-type t-rec"><i></i>Phải thu</span></td>
+            <td>Lô 05-1(a)</td>
+            <td class="num">93,48 ng.USD</td>
+            <td class="ctr"><span class="age age--red">&gt; 5 năm</span></td>
+            <td class="note-c">PVI South (đối ứng phí BH Lô 09-2/09)</td>
           </tr>
-          <tr class="debt-row" data-type="rec" data-age="gt2" style="border-bottom:1px solid var(--ac-line); transition:all .3s ease; cursor:pointer;" onmouseenter="this.style.background='rgba(234,88,12,0.06)';this.style.transform='scale(1.01)'" onmouseleave="this.style.background='';this.style.transform=''">
-            <td style="padding:1rem 1.5rem; font-weight:600; color:var(--ink-700);">Phải thu</td>
-            <td style="padding:1rem 1.5rem;">Sông Đốc</td>
-            <td style="padding:1rem 1.5rem; text-align:right; font-weight:bold;">0,69 tr.USD</td>
-            <td style="padding:1rem 1.5rem; text-align:center;"><span style="background:var(--warning); color:#fff; padding:0.2rem 0.6rem; border-radius:99px; font-size:0.8rem; font-weight:600;">Quá hạn</span></td>
-            <td style="padding:1rem 1.5rem; color:var(--ink-600); font-size:0.85rem;">G&amp;A vượt hạn mức KH thu dọn mỏ</td>
+          <tr class="debt-row" data-type="rec" data-age="gt2">
+            <td><span class="t-type t-rec"><i></i>Phải thu</span></td>
+            <td>Sông Đốc</td>
+            <td class="num">0,69 tr.USD</td>
+            <td class="ctr"><span class="age age--warn">Quá hạn</span></td>
+            <td class="note-c">G&amp;A vượt hạn mức KH thu dọn mỏ</td>
           </tr>
         </tbody>
       </table>
@@ -2158,28 +2365,13 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
       
       <div style="flex:1;">
         <div class="ac-reveal" style="--i:1; background:#fff; border-radius:20px; box-shadow:0 8px 30px rgba(0,0,0,0.05); padding:1.5rem; border:1px solid var(--ac-line);">
-          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.8rem; font-size:0.95rem; color:var(--ink-700);">
-            <li style="display:flex; gap:1rem; align-items:flex-start;">
-              <span style="color:var(--danger); font-weight:bold; font-size:1.2rem; line-height:1;">•</span>
-              <div><b>Hồ sơ tiếp khách/đối ngoại:</b> Thiếu nội dung làm việc, số người → không đối chiếu được định mức (PL 94 QĐ 355).</div>
-            </li>
-            <li style="display:flex; gap:1rem; align-items:flex-start;">
-              <span style="color:var(--warning); font-weight:bold; font-size:1.2rem; line-height:1;">•</span>
-              <div><b>Workshop Pre TCM/MCM:</b> Dự toán ghi đồng thời "trọn gói" và "thanh toán theo thực tế" → thanh toán theo trọn gói dù số người thấp hơn kế hoạch.</div>
-            </li>
-            <li style="display:flex; gap:1rem; align-items:flex-start;">
-              <span style="color:var(--pvep-blue); font-weight:bold; font-size:1.2rem; line-height:1;">•</span>
-              <div><b>Công tác phí Korea:</b> Áp khoán khách sạn 900K đ/đêm thay cho công tác phí ngày đi đường 95 USD.</div>
-            </li>
-            <li style="display:flex; gap:1rem; align-items:flex-start;">
-              <span style="color:var(--danger); font-weight:bold; font-size:1.2rem; line-height:1;">•</span>
-              <div><b>Thưởng First Oil ĐHP3:</b> Tự chia 3 nhóm hệ số (1,5 / 1,2 / 1) thay vì 2 nhóm theo QĐ 937, chưa báo cáo/phê duyệt PVEP.</div>
-            </li>
-            <li style="display:flex; gap:1rem; align-items:flex-start;">
-              <span style="color:var(--danger); font-weight:bold; font-size:1.2rem; line-height:1;">•</span>
-              <div><b>Khấu trừ thuế TNCN:</b> Cố định 10% với khoản thưởng (tính chất tiền lương) — chưa đúng biểu lũy tiến (Đ.9 Luật 109/2025/QH15) → rủi ro truy thu, ảnh hưởng dòng tiền.</div>
-            </li>
-          </ul>
+          <div class="findcards">
+            <div class="findcard findcard--r"><span class="findcard__no">1</span><span class="findcard__b"><b>Hồ sơ tiếp khách/đối ngoại:</b> Thiếu nội dung làm việc, số người → không đối chiếu được định mức (PL 94 QĐ 355).</span></div>
+            <div class="findcard findcard--y"><span class="findcard__no">2</span><span class="findcard__b"><b>Workshop Pre TCM/MCM:</b> Dự toán ghi đồng thời "trọn gói" và "thanh toán theo thực tế" → thanh toán trọn gói dù số người thấp hơn kế hoạch.</span></div>
+            <div class="findcard findcard--b"><span class="findcard__no">3</span><span class="findcard__b"><b>Công tác phí Korea:</b> Áp khoán khách sạn 900K đ/đêm thay cho công tác phí ngày đi đường 95 USD.</span></div>
+            <div class="findcard findcard--r"><span class="findcard__no">4</span><span class="findcard__b"><b>Thưởng First Oil ĐHP3:</b> Tự chia 3 nhóm hệ số (1,5 / 1,2 / 1) thay vì 2 nhóm theo QĐ 937, chưa báo cáo/phê duyệt PVEP.</span></div>
+            <div class="findcard findcard--r"><span class="findcard__no">5</span><span class="findcard__b"><b>Khấu trừ thuế TNCN:</b> Cố định 10% với khoản thưởng (tính chất tiền lương) — chưa đúng biểu lũy tiến (Đ.9 Luật 109/2025/QH15) → rủi ro truy thu, ảnh hưởng dòng tiền.</span></div>
+          </div>
         </div>
         
         <div class="rec ac-reveal" style="--i:2; margin-top:1.5rem; background:rgba(0,176,80,0.05); border-color:var(--pvep-green);">
@@ -2197,6 +2389,12 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
     <div class="head-center" style="margin-bottom:1rem;">
       <div class="eyebrow ac-reveal">A13 · TỔNG HỢP KIẾN NGHỊ PVEP-NCS</div>
       <h2 class="s-title s-title--sm ac-reveal" style="--i:1">HĐTV xem xét chỉ đạo</h2>
+    </div>
+    <div class="nq-sum ac-reveal" style="--i:1">
+      <span class="nq-sum__chip"><span class="nq-sum__dot" style="background:var(--danger)"></span><b>4</b> Thực hiện NGAY</span>
+      <span class="nq-sum__chip"><span class="nq-sum__dot" style="background:var(--pvep-green)"></span><b>6</b> Hoàn thành Q3/2026</span>
+      <span class="nq-sum__chip"><span class="nq-sum__dot" style="background:var(--pvep-blue)"></span><b>1</b> Q4/2026</span>
+      <span class="nq-sum__chip"><span class="nq-sum__dot" style="background:#94A3B8"></span><b>7</b> Các Ban PVEP</span>
     </div>
     <div class="ac-reveal" style="--i:2; display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:1.5rem;">
       <!-- Cột trái (NCS) -->
@@ -2538,63 +2736,37 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
       <div class="eyebrow ac-reveal">B9 · TỔNG HỢP PVEP-KHÁNH MY</div>
       <h2 class="s-title s-title--sm ac-reveal" style="--i:1">Tổng hợp kết quả đánh giá &amp; kiến nghị</h2>
     </div>
-    <div class="ac-reveal" style="--i:2; margin-top:1.5rem; overflow-x:auto;">
-      <style>
-        .km-tbl { width:100%; min-width:600px; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.05); border:1px solid #e2e8f0; }
-        .km-tbl th { background:var(--pvep-navy); color:#fff; padding:1rem; text-align:left; font-weight:600; font-size:0.95rem; border-right:1px solid rgba(255,255,255,0.1); }
-        .km-tbl th:last-child { border-right:none; }
-        .km-tbl td { padding:1rem; border-bottom:1px solid #e2e8f0; font-size:0.95rem; color:var(--ink-700); vertical-align:middle; border-right:1px solid #e2e8f0; line-height:1.4; }
-        .km-tbl td:last-child { border-right:none; }
-        .km-tbl tr:last-child td { border-bottom:none; }
-        .km-tbl tr:nth-child(even) td { background:#f8fafc; }
-        .tbl-eval { font-weight:bold; display:inline-flex; align-items:center; gap:0.5rem; }
-        .tbl-eval--warn { color:#D97706; }
-        .tbl-eval--ok { color:#15803D; }
-        .km-tbl th:nth-child(1) { width:22%; }
-        .km-tbl th:nth-child(2) { width:23%; }
-        .km-tbl th:nth-child(3) { width:55%; }
-      </style>
-      <table class="km-tbl">
-        <thead>
-          <tr>
-            <th>Lĩnh vực</th>
-            <th>Đánh giá</th>
-            <th>Định hướng kiến nghị chính</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><b>Hệ thống VBQLNB</b></td>
-            <td><div class="tbl-eval tbl-eval--warn">⚠️ Cần hoàn thiện</div></td>
-            <td>Ban hành quy định quản lý VBQLNB; kiện toàn quy trình các lĩnh vực trọng yếu</td>
-          </tr>
-          <tr>
-            <td><b>CTHĐ&amp;NS &amp; Phát triển mỏ</b></td>
-            <td><div class="tbl-eval tbl-eval--warn">⚠️ Đang triển khai</div></td>
-            <td>Đảm bảo tiến độ FG Q4/2027; bổ sung quy trình giám sát CTHĐ&amp;NS và FDP</td>
-          </tr>
-          <tr>
-            <td><b>Thương mại – Đấu thầu</b></td>
-            <td><div class="tbl-eval tbl-eval--warn">⚠️ Cần chấn chỉnh</div></td>
-            <td>Thống nhất trình tự phê duyệt QĐ 1066; hoàn thiện CSDL; xử lý rủi ro pháp lý HĐ nội bộ</td>
-          </tr>
-          <tr>
-            <td><b>Tài chính – Kế toán</b></td>
-            <td><div class="tbl-eval tbl-eval--ok">✔️ Cơ bản đạt yêu cầu</div></td>
-            <td>Kiểm soát số dư tiền; xử lý khoản nợ thuế môn bài; tuân thủ định mức G&amp;A</td>
-          </tr>
-          <tr>
-            <td><b>Quản trị rủi ro</b></td>
-            <td><div class="tbl-eval tbl-eval--warn">⚠️ Cần tăng cường</div></td>
-            <td>Ban hành quy định nội bộ; chỉ định lãnh đạo phụ trách; nâng chất lượng HSRR</td>
-          </tr>
-          <tr>
-            <td><b>CNTT – An toàn dữ liệu</b></td>
-            <td><div class="tbl-eval tbl-eval--warn">⚠️ Cần khắc phục</div></td>
-            <td>Cơ chế phối hợp PVEP-HCM; bảo mật sao lưu; xây dựng DR Plan</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="scards ac-reveal" style="--i:2; margin-top:1.5rem;">
+      <div class="scard" style="--i:0">
+        <div class="scard__top"><span class="scard__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span><span class="scard__t">Hệ thống VBQLNB</span></div>
+        <span class="scard__st">⚠ Cần hoàn thiện</span>
+        <p class="scard__d">Ban hành quy định quản lý VBQLNB; kiện toàn quy trình các lĩnh vực trọng yếu.</p>
+      </div>
+      <div class="scard" style="--i:1">
+        <div class="scard__top"><span class="scard__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span><span class="scard__t">CTHĐ&amp;NS &amp; Phát triển mỏ</span></div>
+        <span class="scard__st">⚠ Đang triển khai</span>
+        <p class="scard__d">Đảm bảo tiến độ FG Q4/2027; bổ sung quy trình giám sát CTHĐ&amp;NS và FDP.</p>
+      </div>
+      <div class="scard" style="--i:2">
+        <div class="scard__top"><span class="scard__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9"/></svg></span><span class="scard__t">Thương mại – Đấu thầu</span></div>
+        <span class="scard__st">⚠ Cần chấn chỉnh</span>
+        <p class="scard__d">Thống nhất trình tự phê duyệt QĐ 1066; hoàn thiện CSDL; xử lý rủi ro pháp lý HĐ nội bộ.</p>
+      </div>
+      <div class="scard scard--ok" style="--i:3">
+        <div class="scard__top"><span class="scard__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span><span class="scard__t">Tài chính – Kế toán</span></div>
+        <span class="scard__st">✔ Cơ bản đạt yêu cầu</span>
+        <p class="scard__d">Kiểm soát số dư tiền; xử lý khoản nợ thuế môn bài; tuân thủ định mức G&amp;A.</p>
+      </div>
+      <div class="scard" style="--i:4">
+        <div class="scard__top"><span class="scard__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span><span class="scard__t">Quản trị rủi ro</span></div>
+        <span class="scard__st">⚠ Cần tăng cường</span>
+        <p class="scard__d">Ban hành quy định nội bộ; chỉ định lãnh đạo phụ trách; nâng chất lượng HSRR.</p>
+      </div>
+      <div class="scard" style="--i:5">
+        <div class="scard__top"><span class="scard__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></span><span class="scard__t">CNTT – An toàn dữ liệu</span></div>
+        <span class="scard__st">⚠ Cần khắc phục</span>
+        <p class="scard__d">Cơ chế phối hợp PVEP-HCM; bảo mật sao lưu; xây dựng DR Plan.</p>
+      </div>
     </div>
   </div></div>
 </section>
@@ -2616,36 +2788,36 @@ html.printing .nxorb-core__halo, html.printing .df-org__halo, html.printing .df-
       .final-txt p { font-size: 0.9rem; color: var(--ink-700); line-height: 1.45; margin: 0; }
       </style>
       <ul class="final-list">
-        <li class="ac-reveal" style="--i:0">
-          <div class="final-ic">i</div>
+        <li class="ac-reveal" style="--i:0; border-left:5px solid var(--pvep-blue)">
+          <div class="final-ic" style="background:var(--pvep-blue)">i</div>
           <div class="final-txt">
             <h4>Về công tác thương mại, đấu thầu</h4>
             <p>Tuân thủ quy định của PVEP, Petrovietnam và pháp luật hiện hành trong công tác đấu thầu.</p>
           </div>
         </li>
-        <li class="ac-reveal" style="--i:1">
-          <div class="final-ic">ii</div>
+        <li class="ac-reveal" style="--i:1; border-left:5px solid var(--pvep-navy)">
+          <div class="final-ic" style="background:var(--pvep-navy)">ii</div>
           <div class="final-txt">
             <h4>Về hệ thống văn bản quản lý nội bộ</h4>
             <p>(a) Rà soát, sửa đổi và hoàn thiện hệ thống VBQLNB bảo đảm đồng bộ với các quy định của PVEP, đặc biệt trong các lĩnh vực CTHĐ&amp;NS, quản lý kỹ thuật (RAR/CTTDDKBS/ODP/FDP), mua sắm đấu thầu và tổ chức hoạt động; (b) Xây dựng và hoàn thiện hệ thống VBQLNB theo hướng quy định đầy đủ cơ chế phân cấp, phê duyệt, kiểm soát và chế độ báo cáo đối với các lĩnh vực trọng yếu như đấu thầu, CTHĐ&amp;NS, phát triển mỏ và quản lý dự án.</p>
           </div>
         </li>
-        <li class="ac-reveal" style="--i:2">
-          <div class="final-ic">iii</div>
+        <li class="ac-reveal" style="--i:2; border-left:5px solid var(--pvep-green)">
+          <div class="final-ic" style="background:var(--pvep-green)">iii</div>
           <div class="final-txt">
             <h4>Về quản lý tài chính, kế toán và hồ sơ chi phí</h4>
             <p>(a) Tăng cường kiểm soát công tác lập dự toán, thanh quyết toán, hồ sơ chứng từ; bảo đảm đầy đủ cơ sở phê duyệt, áp dụng đúng định mức, chế độ tài chính và quy định nội bộ; (b) Rà soát, xử lý các tồn tại về số dư tiền mặt, công nợ tồn đọng, hồ sơ thanh toán và tuân thủ định mức G&amp;A theo quy định của PVEP.</p>
           </div>
         </li>
-        <li class="ac-reveal" style="--i:3">
-          <div class="final-ic">iv</div>
+        <li class="ac-reveal" style="--i:3; border-left:5px solid var(--caution)">
+          <div class="final-ic" style="background:var(--caution)">iv</div>
           <div class="final-txt">
             <h4>Về công tác quản trị rủi ro</h4>
             <p>(a) Hoàn thiện khung quản trị rủi ro phù hợp với quy định của PVEP; phân công rõ trách nhiệm quản lý, điều phối rủi ro và thực hiện đầy đủ chế độ báo cáo; (b) Tăng cường đào tạo, truyền thông nội bộ, hoàn thiện hồ sơ rủi ro và bảo đảm nhận diện, theo dõi đầy đủ các rủi ro trọng yếu trong hoạt động sản xuất kinh doanh và triển khai dự án.</p>
           </div>
         </li>
-        <li class="ac-reveal" style="--i:4">
-          <div class="final-ic">v</div>
+        <li class="ac-reveal" style="--i:4; border-left:5px solid var(--danger)">
+          <div class="final-ic" style="background:var(--danger)">v</div>
           <div class="final-txt">
             <h4>Công tác bảo mật thông tin và an toàn dữ liệu</h4>
             <p>(a) Rà soát và khắc phục các lỗ hổng trong hệ thống sao lưu dữ liệu của Đơn vị; (b) Xây dựng và ban hành quy định quản lý Công nghệ thông tin của Chi nhánh đảm bảo tuân thủ Chính sách Công nghệ thông tin của PVEP.</p>
