@@ -1301,11 +1301,11 @@ button.nx-app__btn.is-busy{ animation:racBusy .55s var(--ac-ease); }
      tài liệu thường; mỗi slide cao tối thiểu 1 màn hình và GIÃN theo
      nội dung nên không bao giờ cắt chữ. overflow:hidden vẫn chặn tràn
      NGANG (không còn vuốt-ngang-nhảy-trang ngoài ý muốn). */
-  html{ scroll-snap-type:none !important; }
-  html, body{ height:auto !important; min-height:100%; overflow-x:hidden; }
+  html{ scroll-snap-type:none !important; scroll-behavior:auto !important; }  /* cuộn tay tức thì, bỏ "mượt" gây cảm giác kẹt trên điện thoại thật */
+  html, body{ height:auto !important; min-height:100%; overflow-x:hidden; -webkit-overflow-scrolling:touch; }
   .slide{
     height:auto !important; min-height:100svh;
-    overflow:hidden;                       /* chặn tràn ngang, cao tự do theo nội dung */
+    overflow-x:clip; overflow-y:visible;   /* slide KHÔNG là vùng cuộn riêng → CẢ TRANG là một vùng cuộn duy nhất (hết kẹt slide dài) */
     scroll-snap-align:none !important;
   }
   .slide-content{
@@ -2835,7 +2835,7 @@ html.printing .slide-content [style*="max-height"]{ max-height:none !important; 
       if(!tracking) return; tracking=false;
       if(Date.now()<cooldown) return;
       var t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy;
-      if(Math.abs(dx)>Math.abs(dy)*1.8 && Math.abs(dx)>THRESH){   // horizontal swipe (phải trội hẳn so với dọc)
+      if(window.innerWidth>=821 && Math.abs(dx)>Math.abs(dy)*1.8 && Math.abs(dx)>THRESH){   // horizontal swipe — chỉ bật trên màn rộng (điện thoại dùng cuộn dọc tự nhiên)
         hideHint(); cooldown=Date.now()+450;
         goTo(dx<0 ? current+1 : current-1);
       } else if(Math.abs(dy)>THRESH){                          // vertical (native) swipe
