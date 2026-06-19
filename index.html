@@ -1316,7 +1316,7 @@ button.nx-app__btn.is-busy{ animation:racBusy .55s var(--ac-ease); }
   }
   .ambient{ display:none !important; }      /* orbs blur(70px) rất nặng trên GPU di động */
 
-  .cards--4, .cards--3, .tri { grid-template-columns: 1fr !important; }
+  .cards--4, .cards--3, .tri, .duo, .duo--2 { grid-template-columns: 1fr !important; }
   div[style*="grid-template-columns:repeat(3,1fr)"],
   div[style*="grid-template-columns: 1fr 1fr"],
   div[style*="grid-template-columns:1fr 1fr"],
@@ -1959,7 +1959,7 @@ html.printing .slide-content [style*="max-height"]{ max-height:none !important; 
       <div class="eyebrow ac-reveal">A4 · TUÂN THỦ THƯƠNG MẠI – ĐẤU THẦU (THỰC TẾ)</div>
       <h2 class="s-title s-title--sm ac-reveal" style="--i:1">07 phát hiện <span class="neo">nổi bật</span> qua kiểm tra mẫu</h2>
     </div>
-    <div class="statrow" style="margin-bottom:1.5rem;">
+    <div class="statrow" style="margin-bottom:.55rem;">
       <div class="stat stat--b ac-reveal flash" style="--i:0"><span class="stat__lbl">Gói thầu 2025</span><span class="stat__num" data-count-to="310">0</span><span class="stat__sub">~561 tr.USD · 37 gói trình PVEP/Petrovietnam</span></div>
       <div class="stat stat--g ac-reveal flash" style="--i:1"><span class="stat__lbl">Mẫu kiểm tra</span><span class="stat__num">42 <small style="font-size:.4em;color:var(--ink-500)">= 45,1%</small></span><span class="stat__sub">~253 tr.USD · 15 gói ≥600K, 27 gói &lt;600K</span></div>
       <div class="stat stat--d ac-reveal flash" style="--i:2"><span class="stat__lbl">Tieback vượt dự toán</span><span class="stat__num">+128%</span><span class="stat__sub">KNTT 2.206.198 USD (~448K) · giảm giá 3 lần</span></div>
@@ -1967,12 +1967,12 @@ html.printing .slide-content [style*="max-height"]{ max-height:none !important; 
     
     <!-- Interactive: hover từng phát hiện 1-6 → kiến nghị tương ứng XOAY hiện ra -->
     <style>
-      .bid-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:1.5rem; align-items:stretch; }
-      .bid-finds{ display:grid; grid-template-columns:1fr 1fr; gap:.7rem 1.1rem; align-content:start; }
-      .bid-find{ display:flex; align-items:flex-start; gap:.8rem; padding:.7rem .85rem; border-radius:12px; border:1px solid transparent; cursor:pointer; transition:background .25s, border-color .25s, transform .25s, box-shadow .25s; }
-      .bid-find__no{ width:30px; height:30px; border-radius:50%; display:grid; place-content:center; font-weight:800; flex-shrink:0; font-family:var(--font-display); transition:transform .25s; }
-      .bid-find h4{ font-size:.98rem; margin-bottom:.18rem; line-height:1.25; }
-      .bid-find p{ font-size:.8rem; color:var(--ink-600); line-height:1.34; }
+      .bid-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:1.1rem; align-items:stretch; }
+      .bid-finds{ display:grid; grid-template-columns:1fr 1fr; gap:.45rem .9rem; align-content:start; }
+      .bid-find{ display:flex; align-items:flex-start; gap:.65rem; padding:.5rem .65rem; border-radius:12px; border:1px solid transparent; cursor:pointer; transition:background .25s, border-color .25s, transform .25s, box-shadow .25s; }
+      .bid-find__no{ width:27px; height:27px; border-radius:50%; display:grid; place-content:center; font-weight:800; flex-shrink:0; font-family:var(--font-display); transition:transform .25s; }
+      .bid-find h4{ font-size:.93rem; margin-bottom:.12rem; line-height:1.22; }
+      .bid-find p{ font-size:.77rem; color:var(--ink-600); line-height:1.3; }
       .bid-find--r .bid-find__no{ background:rgba(220,38,38,0.12); color:var(--danger); }
       .bid-find--w .bid-find__no{ background:rgba(234,88,12,0.12); color:var(--warning); }
       .bid-find--r h4{ color:var(--danger); } .bid-find--w h4{ color:var(--warning); }
@@ -1981,7 +1981,7 @@ html.printing .slide-content [style*="max-height"]{ max-height:none !important; 
       .bid-find--w:hover, .bid-find--w.is-active{ background:rgba(234,88,12,0.06); border-color:rgba(234,88,12,0.3); }
       .bid-find:hover .bid-find__no, .bid-find.is-active .bid-find__no{ transform:scale(1.12); }
 
-      .bid-rec{ position:relative; border-radius:18px; padding:1.5rem 1.6rem; color:#fff; display:flex; flex-direction:column; gap:.9rem; min-height:100%; perspective:1200px;
+      .bid-rec{ position:relative; border-radius:18px; padding:1.05rem 1.25rem; color:#fff; display:flex; flex-direction:column; gap:.6rem; min-height:100%; perspective:1200px;
         background:linear-gradient(150deg,#0E335A,#0A2A4A); box-shadow:0 18px 44px rgba(10,42,74,.22); overflow:hidden; }
       .bid-rec::before{ content:""; position:absolute; inset:0; opacity:.5; pointer-events:none;
         background:radial-gradient(420px 280px at 110% -10%, rgba(0,131,199,.45), transparent 60%); }
@@ -1997,7 +1997,7 @@ html.printing .slide-content [style*="max-height"]{ max-height:none !important; 
       .bid-rec__dot{ width:9px; height:9px; border-radius:50%; background:var(--pvep-green); box-shadow:0 0 0 4px rgba(0,176,80,.25); }
       @media (max-width:980px){ .bid-grid{ grid-template-columns:1fr; } .bid-finds{ grid-template-columns:1fr; } }
     </style>
-    <div class="ac-reveal" style="--i:3; background:#fff; border-radius:24px; box-shadow:0 12px 40px rgba(0,0,0,0.05); padding:1.6rem; border:1px solid var(--ac-line);">
+    <div class="ac-reveal" style="--i:3; background:#fff; border-radius:24px; box-shadow:0 12px 40px rgba(0,0,0,0.05); padding:1rem 1.2rem; border:1px solid var(--ac-line);">
       <div class="bid-grid">
         <div class="bid-finds">
           <div class="bid-find bid-find--r" data-rec="1" onmouseenter="showBidRec(1)">
@@ -2073,55 +2073,55 @@ html.printing .slide-content [style*="max-height"]{ max-height:none !important; 
     <div class="note note--info ac-reveal" style="--i:0">Cơ sở: <b>QĐ 888</b> (28/4/2025) · <b>TBKL 178/TB-TDKT</b> (09/3/2026) — PVEP đẩy mạnh Hồ sơ rủi ro cấp Tổng công ty.</div>
     
     <!-- Animated Heatmap Visualization for QTRR -->
-    <div class="ac-reveal" style="--i:2; margin-top:1.5rem; display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; align-items:stretch;">
-      <div class="ac-pop" style="--i:0; flex:1; background:linear-gradient(180deg, rgba(0,166,81,0.04), rgba(0,166,81,0.12)); border:1px solid rgba(0,166,81,0.25); border-radius:20px; padding:1.4rem; position:relative; overflow:hidden; transition:transform .4s ease, box-shadow .4s ease;" onmouseenter="this.style.transform='translateY(-8px) scale(1.02)';this.style.boxShadow='0 20px 50px rgba(0,166,81,0.2)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+    <div class="ac-reveal" style="--i:2; margin-top:.7rem; display:grid; grid-template-columns:repeat(3,1fr); gap:.9rem; align-items:stretch;">
+      <div class="ac-pop" style="--i:0; flex:1; background:linear-gradient(180deg, rgba(0,166,81,0.04), rgba(0,166,81,0.12)); border:1px solid rgba(0,166,81,0.25); border-radius:20px; padding:1rem 1.1rem; position:relative; overflow:hidden; transition:transform .4s ease, box-shadow .4s ease;" onmouseenter="this.style.transform='translateY(-8px) scale(1.02)';this.style.boxShadow='0 20px 50px rgba(0,166,81,0.2)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
         <div style="position:absolute; top:-30px; right:-30px; width:120px; height:120px; background:radial-gradient(circle, rgba(0,166,81,0.15) 0%, transparent 70%); border-radius:50%; animation:ac-float 6s ease-in-out infinite;"></div>
-        <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">
+        <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:.55rem;">
           <div class="glow" style="background:var(--pvep-green); color:#fff; width:48px; height:48px; border-radius:14px; display:grid; place-content:center; font-size:1.4rem; font-weight:800; font-family:var(--font-display); box-shadow:0 6px 18px rgba(0,166,81,0.4);">1</div>
           <div><h3 style="font-family:var(--font-display); font-size:1.1rem; color:var(--pvep-green); font-weight:800; line-height:1.1;">Xây dựng hệ thống</h3></div>
         </div>
-        <div style="background:rgba(255,255,255,0.85); backdrop-filter:blur(8px); border-radius:12px; padding:1rem; box-shadow:0 4px 15px rgba(0,0,0,0.05);">
-          <ul style="margin-left:1rem; color:var(--ink-700); font-size:0.92rem; line-height:1.5; display:flex; flex-direction:column; gap:0.5rem;">
+        <div style="background:rgba(255,255,255,0.85); backdrop-filter:blur(8px); border-radius:12px; padding:.7rem .8rem; box-shadow:0 4px 15px rgba(0,0,0,0.05);">
+          <ul style="margin-left:1rem; color:var(--ink-700); font-size:0.92rem; line-height:1.4; display:flex; flex-direction:column; gap:0.3rem;">
             <li>Chưa ban hành quy định QTRR cấp đơn vị (Đ.15.1)</li>
             <li>Chưa phân công vai trò LĐ &amp; nhân sự điều phối rủi ro (Đ.14.f)</li>
           </ul>
         </div>
-        <div style="margin-top:1rem; height:6px; background:rgba(0,166,81,0.15); border-radius:99px; overflow:hidden;"><div class="ac-fill-x" style="--w:90%; height:100%; background:linear-gradient(90deg,var(--pvep-green),var(--pvep-green)); border-radius:99px;"></div></div>
+        <div style="margin-top:.5rem; height:6px; background:rgba(0,166,81,0.15); border-radius:99px; overflow:hidden;"><div class="ac-fill-x" style="--w:90%; height:100%; background:linear-gradient(90deg,var(--pvep-green),var(--pvep-green)); border-radius:99px;"></div></div>
       </div>
 
-      <div class="ac-pop" style="--i:1; flex:1; background:linear-gradient(180deg, rgba(0,166,81,0.04), rgba(0,166,81,0.12)); border:1px solid rgba(0,166,81,0.25); border-radius:20px; padding:1.4rem; position:relative; overflow:hidden; transition:transform .4s ease, box-shadow .4s ease;" onmouseenter="this.style.transform='translateY(-8px) scale(1.02)';this.style.boxShadow='0 20px 50px rgba(0,166,81,0.2)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+      <div class="ac-pop" style="--i:1; flex:1; background:linear-gradient(180deg, rgba(0,166,81,0.04), rgba(0,166,81,0.12)); border:1px solid rgba(0,166,81,0.25); border-radius:20px; padding:1rem 1.1rem; position:relative; overflow:hidden; transition:transform .4s ease, box-shadow .4s ease;" onmouseenter="this.style.transform='translateY(-8px) scale(1.02)';this.style.boxShadow='0 20px 50px rgba(0,166,81,0.2)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
         <div style="position:absolute; top:-30px; right:-30px; width:120px; height:120px; background:radial-gradient(circle, rgba(0,166,81,0.15) 0%, transparent 70%); border-radius:50%; animation:ac-float 6s ease-in-out infinite; animation-delay:-2s;"></div>
-        <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">
+        <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:.55rem;">
           <div class="glow" style="background:var(--pvep-green); color:#fff; width:48px; height:48px; border-radius:14px; display:grid; place-content:center; font-size:1.4rem; font-weight:800; font-family:var(--font-display); box-shadow:0 6px 18px rgba(0,166,81,0.4);">2</div>
           <div><h3 style="font-family:var(--font-display); font-size:1.1rem; color:var(--pvep-green); font-weight:800; line-height:1.1;">Báo cáo định kỳ</h3></div>
         </div>
-        <div style="background:rgba(255,255,255,0.85); backdrop-filter:blur(8px); border-radius:12px; padding:1rem; box-shadow:0 4px 15px rgba(0,0,0,0.05);">
-          <ul style="margin-left:1rem; color:var(--ink-700); font-size:0.92rem; line-height:1.5; display:flex; flex-direction:column; gap:0.5rem;">
+        <div style="background:rgba(255,255,255,0.85); backdrop-filter:blur(8px); border-radius:12px; padding:.7rem .8rem; box-shadow:0 4px 15px rgba(0,0,0,0.05);">
+          <ul style="margin-left:1rem; color:var(--ink-700); font-size:0.92rem; line-height:1.4; display:flex; flex-direction:column; gap:0.3rem;">
             <li>PVEP-NCS có cung cấp thông tin nhận diện rủi ro theo mẫu HSRR theo yêu cầu tuy nhiên nội dung chưa bám sát hướng dẫn về tên rủi ro, xác định nguyên nhân gốc rễ, giải pháp ứng phó.</li>
             <li>PVEP-NCS chưa lập Báo cáo QTRR tích hợp trong HSRR (hàng quý) để phân tích biến động rủi ro, nhận diện rủi ro mới nổi, cập nhật tình hình triển khai các kế hoạch hành động ứng phó rủi ro.</li>
             <li>Chưa lập/gửi BC ứng phó rủi ro hằng tháng (Đ.9.2c)</li>
           </ul>
         </div>
-        <div style="margin-top:1rem; height:6px; background:rgba(0,166,81,0.15); border-radius:99px; overflow:hidden;"><div class="ac-fill-x" style="--w:50%; height:100%; background:linear-gradient(90deg,var(--pvep-green),var(--pvep-green)); border-radius:99px;"></div></div>
+        <div style="margin-top:.5rem; height:6px; background:rgba(0,166,81,0.15); border-radius:99px; overflow:hidden;"><div class="ac-fill-x" style="--w:50%; height:100%; background:linear-gradient(90deg,var(--pvep-green),var(--pvep-green)); border-radius:99px;"></div></div>
       </div>
 
-      <div class="ac-pop" style="--i:2; flex:1; background:linear-gradient(180deg, rgba(0,166,81,0.04), rgba(0,166,81,0.12)); border:1px solid rgba(0,166,81,0.25); border-radius:20px; padding:1.4rem; position:relative; overflow:hidden; transition:transform .4s ease, box-shadow .4s ease;" onmouseenter="this.style.transform='translateY(-8px) scale(1.02)';this.style.boxShadow='0 20px 50px rgba(0,166,81,0.2)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
+      <div class="ac-pop" style="--i:2; flex:1; background:linear-gradient(180deg, rgba(0,166,81,0.04), rgba(0,166,81,0.12)); border:1px solid rgba(0,166,81,0.25); border-radius:20px; padding:1rem 1.1rem; position:relative; overflow:hidden; transition:transform .4s ease, box-shadow .4s ease;" onmouseenter="this.style.transform='translateY(-8px) scale(1.02)';this.style.boxShadow='0 20px 50px rgba(0,166,81,0.2)'" onmouseleave="this.style.transform='';this.style.boxShadow=''">
         <div style="position:absolute; top:-30px; right:-30px; width:120px; height:120px; background:radial-gradient(circle, rgba(0,166,81,0.15) 0%, transparent 70%); border-radius:50%; animation:ac-float 6s ease-in-out infinite; animation-delay:-4s;"></div>
-        <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">
+        <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:.55rem;">
           <div class="glow" style="background:var(--pvep-green); color:#fff; width:48px; height:48px; border-radius:14px; display:grid; place-content:center; font-size:1.4rem; font-weight:800; font-family:var(--font-display); box-shadow:0 6px 18px rgba(0,166,81,0.4);">3</div>
           <div><h3 style="font-family:var(--font-display); font-size:1.1rem; color:var(--pvep-green); font-weight:800; line-height:1.1;">Truyền thông &amp; đào tạo</h3></div>
         </div>
-        <div style="background:rgba(255,255,255,0.85); backdrop-filter:blur(8px); border-radius:12px; padding:1rem; box-shadow:0 4px 15px rgba(0,0,0,0.05);">
-          <ul style="margin-left:1rem; color:var(--ink-700); font-size:0.92rem; line-height:1.5; display:flex; flex-direction:column; gap:0.5rem;">
+        <div style="background:rgba(255,255,255,0.85); backdrop-filter:blur(8px); border-radius:12px; padding:.7rem .8rem; box-shadow:0 4px 15px rgba(0,0,0,0.05);">
+          <ul style="margin-left:1rem; color:var(--ink-700); font-size:0.92rem; line-height:1.4; display:flex; flex-direction:column; gap:0.3rem;">
             <li>Tham gia đào tạo nâng cao nhận thức kỹ năng QTRR tại Đơn vị</li>
             <li>Ban CL&amp;QTRR tăng cường truyền thông, đào tạo, hướng dẫn cho Đơn vị để triển khai đúng theo Quy chế</li>
           </ul>
         </div>
-        <div style="margin-top:1rem; height:6px; background:rgba(0,166,81,0.15); border-radius:99px; overflow:hidden;"><div class="ac-fill-x" style="--w:65%; height:100%; background:linear-gradient(90deg,var(--pvep-green),var(--pvep-green)); border-radius:99px;"></div></div>
+        <div style="margin-top:.5rem; height:6px; background:rgba(0,166,81,0.15); border-radius:99px; overflow:hidden;"><div class="ac-fill-x" style="--w:65%; height:100%; background:linear-gradient(90deg,var(--pvep-green),var(--pvep-green)); border-radius:99px;"></div></div>
       </div>
     </div>
     
-    <div class="rec ac-reveal" style="--i:3; margin-top:1.5rem;"><span class="rec__tag">Kiến nghị</span><span style="font-size:1.1rem; font-weight:600; line-height:1.45; color:var(--pvep-navy);">Hoàn thiện hệ thống QTRR tại PVEP-NCS theo QĐ 888, gồm: cụ thể hóa quy định/hướng dẫn QTRR; phân công rõ đầu mối và trách nhiệm điều phối rủi ro; phối hợp tuyến 2 triển khai truyền thông, đào tạo đồng bộ; và thực hiện đầy đủ chế độ báo cáo QTRR định kỳ/đột xuất.</span></div>
+    <div class="rec ac-reveal" style="--i:3; margin-top:.7rem;"><span class="rec__tag">Kiến nghị</span><span style="font-size:1.1rem; font-weight:600; line-height:1.45; color:var(--pvep-navy);">Hoàn thiện hệ thống QTRR tại PVEP-NCS theo QĐ 888, gồm: cụ thể hóa quy định/hướng dẫn QTRR; phân công rõ đầu mối và trách nhiệm điều phối rủi ro; phối hợp tuyến 2 triển khai truyền thông, đào tạo đồng bộ; và thực hiện đầy đủ chế độ báo cáo QTRR định kỳ/đột xuất.</span></div>
   </div></div>
 </section>
 
@@ -2449,38 +2449,54 @@ html.printing .slide-content [style*="max-height"]{ max-height:none !important; 
       <div class="stat stat--g ac-reveal flash" style="--i:1"><span class="stat__lbl">Lĩnh vực ATSKMT</span><span class="stat__num">40,5%</span><span class="stat__sub">chiếm tỷ trọng lớn nhất</span></div>
       <div class="stat stat--w ac-reveal flash" style="--i:2"><span class="stat__lbl">Chi nhánh thành lập</span><span class="stat__num">15/01/2024</span><span class="stat__sub">Mới thành lập</span></div>
     </div>
-    <div class="note ac-reveal" style="--i:3; font-size:1.15rem; padding:1rem; line-height:1.5;"><b>Về hệ thống VBQLNB liên quan đế TMĐT, QTRR...tương đồng với các đánh giá của PVEP-NCS</b></div>
-    <div class="note ac-reveal" style="--i:4; margin-top:1.5rem; font-size:1.15rem; padding:1rem; line-height:1.5;"><b>Hệ thống văn bản quản lý công tác phát triển mỏ:</b> Chưa thiết lập đầy đủ hệ thống quy trình quản lý bao quát vòng đời phát triển mỏ, từ khâu chuẩn bị (giám sát, nghiệm thu FEED, lập điều chỉnh ODP, FDP), triển khai sau phê duyệt và quản lý thay đổi.</div>
+    <div class="duo duo--2" style="align-items:stretch; margin-top:.4rem;">
+      <div class="duo__card ac-reveal" style="--i:3; border-left:5px solid var(--info); display:flex; flex-direction:column; gap:.7rem;">
+        <div style="display:flex; align-items:center; gap:.7rem;">
+          <span style="width:46px; height:46px; border-radius:13px; display:grid; place-content:center; background:rgba(29,78,216,.12); color:var(--info); font-size:1.5rem; flex:none;">📑</span>
+          <h3 style="margin:0; color:var(--pvep-navy); font-family:var(--font-display); font-weight:800; font-size:clamp(1.05rem,2vw,1.4rem); line-height:1.15;">Tương đồng đánh giá PVEP-NCS</h3>
+        </div>
+        <p style="margin:0; font-size:1.12rem; line-height:1.55; color:var(--ink-700);">Về hệ thống VBQLNB liên quan đến CTHĐ&amp;NS, TMĐT, QTRR... tương đồng với các đánh giá của PVEP-NCS.</p>
+        <div style="margin-top:auto; display:flex; gap:.5rem; flex-wrap:wrap;"><span class="tag-ok">CTHĐ&amp;NS</span><span class="tag-ok">TMĐT</span><span class="tag-ok">QTRR</span></div>
+      </div>
+      <div class="duo__card ac-reveal" style="--i:4; border-left:5px solid var(--warning); display:flex; flex-direction:column; gap:.7rem;">
+        <div style="display:flex; align-items:center; gap:.7rem;">
+          <span style="width:46px; height:46px; border-radius:13px; display:grid; place-content:center; background:rgba(234,88,12,.14); color:var(--warning); font-size:1.5rem; flex:none;">🛢️</span>
+          <h3 style="margin:0; color:var(--pvep-navy); font-family:var(--font-display); font-weight:800; font-size:clamp(1.05rem,2vw,1.4rem); line-height:1.15;">Văn bản quản lý phát triển mỏ</h3>
+        </div>
+        <p style="margin:0; font-size:1.12rem; line-height:1.55; color:var(--ink-700);">Chưa thiết lập đầy đủ hệ thống quy trình quản lý bao quát vòng đời phát triển mỏ, từ khâu chuẩn bị (giám sát, nghiệm thu FEED, lập điều chỉnh ODP, FDP), triển khai sau phê duyệt và quản lý thay đổi.</p>
+        <div style="margin-top:auto; display:flex; gap:.5rem; flex-wrap:wrap;"><span class="tag-ok tag-warn">FEED</span><span class="tag-ok tag-warn">ODP/FDP</span><span class="tag-ok tag-warn">Quản lý thay đổi</span></div>
+      </div>
+    </div>
   </div></div>
 </section>
 
 
-<!-- ===================== B4 — Thương mại–đấu thầu (KM) ===================== -->
+<!-- ===================== B3 — Thương mại–đấu thầu (KM) ===================== -->
 <section class="slide" data-chapter="2">
   <div class="slide-content"><div class="wrap wrap--wide">
     <div class="head-center">
-      <div class="eyebrow ac-reveal">B4 · TUÂN THỦ THƯƠNG MẠI – ĐẤU THẦU</div>
+      <div class="eyebrow ac-reveal">B3 · TUÂN THỦ THƯƠNG MẠI – ĐẤU THẦU</div>
       <h2 class="s-title s-title--sm ac-reveal" style="--i:1">04 phát hiện <span class="neo">đấu thầu</span> năm 2025</h2>
     </div>
     <div class="statrow">
       <div class="stat stat--b ac-reveal flash" style="--i:0"><span class="stat__lbl">Gói thầu 2025</span><span class="stat__num">34</span><span class="stat__sub">9 gói thuộc PVEP/Petrovietnam ~165 tr.USD = 98,82% giá trị</span></div>
     </div>
-    <div class="note ac-reveal" style="--i:1; margin-top:1.5rem; padding:1.2rem; font-size:1.15rem; line-height:1.6;">
-      <ul class="dlist" style="margin:0;">
-        <li><b style="color:var(--danger)">1 · Trình Petrovietnam khi chưa có phê duyệt của PVEP</b></li>
-        <li><b style="color:var(--warning)">2 · Sử dụng nguồn lực nội bộ giữa các đơn vị phụ thuộc chưa có cơ sở thống nhất</b></li>
-        <li><b style="color:var(--warning)">3 · Hoàn thiện Cơ sở dữ liệu đấu thầu</b></li>
-        <li><b style="color:var(--danger)">4 · Xử lý tình huống:</b> Gói EPCI Cost Estimation Verification vượt dự toán (45.540 -&gt; 62.000 USD), chưa phê duyệt của GĐ về xử lý tình huống, gửi yêu cầu giảm giá qua email, chưa điều chỉnh dự toán – chưa theo quy định QTMS Đ.3.4 – Section B</li>
-      </ul>
+    <div class="ac-reveal" style="--i:1; margin-top:.9rem; background:#fff; border-radius:20px; box-shadow:0 12px 40px rgba(0,0,0,0.05); padding:1.1rem 1.3rem; border:1px solid var(--ac-line);">
+      <div class="bid-finds">
+        <div class="bid-find bid-find--r"><div class="bid-find__no">1</div><div><h4>Trình Petrovietnam khi chưa có phê duyệt của PVEP</h4></div></div>
+        <div class="bid-find bid-find--w"><div class="bid-find__no">2</div><div><h4>Sử dụng nguồn lực nội bộ giữa các đơn vị phụ thuộc chưa có cơ sở thống nhất</h4></div></div>
+        <div class="bid-find bid-find--w"><div class="bid-find__no">3</div><div><h4>Hoàn thiện Cơ sở dữ liệu đấu thầu</h4></div></div>
+        <div class="bid-find bid-find--r"><div class="bid-find__no">4</div><div><h4>Xử lý tình huống: gói EPCI vượt dự toán</h4><p>Gói EPCI Cost Estimation Verification vượt dự toán (45.540 → 62.000 USD), chưa phê duyệt của GĐ về xử lý tình huống, gửi yêu cầu giảm giá qua email, chưa điều chỉnh dự toán – chưa theo quy định QTMS Đ.3.4 – Section B.</p></div></div>
+      </div>
     </div>
   </div></div>
 </section>
 
-<!-- ===================== B5 — Phát triển mỏ KM-ĐD & phương án kết nối ===================== -->
+<!-- ===================== B4 — Phát triển mỏ KM-ĐD & phương án kết nối ===================== -->
 <section class="slide" data-chapter="2">
   <div class="slide-content"><div class="wrap wrap--wide">
     <div class="head-center">
-      <div class="eyebrow ac-reveal">B5 · PHÁT TRIỂN MỎ KM-ĐD &amp; PHƯƠNG ÁN KẾT NỐI</div>
+      <div class="eyebrow ac-reveal">B4 · PHÁT TRIỂN MỎ KM-ĐD &amp; PHƯƠNG ÁN KẾT NỐI</div>
       <h2 class="s-title s-title--sm ac-reveal" style="--i:1">Lộ trình <span class="neo">First Gas Q4/2027</span></h2>
     </div>
     <div class="steps5">
@@ -2521,37 +2537,40 @@ html.printing .slide-content [style*="max-height"]{ max-height:none !important; 
   </div></div>
 </section>
 
-<!-- ===================== B6 — Quản trị rủi ro (KM) ===================== -->
+<!-- ===================== B5 — Quản trị rủi ro (KM) ===================== -->
 <section class="slide" data-chapter="2">
   <div class="slide-content"><div class="wrap wrap--wide">
     <div class="head-center">
-      <div class="eyebrow ac-reveal">B6 · QUẢN TRỊ RỦI RO</div>
+      <div class="eyebrow ac-reveal">B5 · QUẢN TRỊ RỦI RO</div>
       <h2 class="s-title s-title--sm ac-reveal" style="--i:1">Đã lập Tổ QTRR nhưng <span class="neo">thiếu tách bạch</span></h2>
     </div>
     <div class="note note--info ac-reveal" style="--i:2">Căn cứ: <b>QĐ 888 · QĐ 1638 · QT.PC&amp;QLĐT.08</b></div>
-    <div style="max-width:900px; margin:0 auto;">
-      <div class="duo__card ac-reveal" style="--i:0">
-        <span class="duo__no">⚠</span>
-
-        <ul class="dlist dlist--bad" style="margin-top:.3rem">
-          <li>Đã lập Tổ QTRR (QĐ 18/QĐ-ĐHDKKM 30/3/2026), thành phần chủ yếu Tuyến 1</li>
-          <li>Chưa chỉ định Lãnh đạo phụ trách Công tác QTRR (Đ.14.1.f)</li>
-          <li>Chưa có quyết định/hướng dẫn nội bộ về triển khai công tác QTRR</li>
-          <li>HSRR chưa bao quát đầy đủ các rủi ro trọng yếu/rủi ro mới phát sinh</li>
-          <li>Chất lượng nhận diện, mô tả rủi ro, xác định nguyên nhân cốt lõi và giải pháp ứng phó còn hạn chế</li>
-          <li>Chưa thực hiện đầy đủ chế độ báo cáo của PVEP (Báo cáo QTRR, Báo cáo theo dõi UPRR)</li>
-          <li>Mức độ nắm bắt phương pháp luận QTRR chưa đồng đều</li>
-        </ul>
+    <div style="max-width:1120px; margin:0 auto;">
+      <div class="ac-reveal" style="--i:2; display:flex; align-items:center; gap:.85rem; background:linear-gradient(135deg,rgba(0,176,80,.13),rgba(0,176,80,.03)); border:1px solid rgba(0,176,80,.32); border-left:5px solid var(--pvep-green); border-radius:14px; padding:.8rem 1.1rem; margin-bottom:.9rem;">
+        <span style="width:42px; height:42px; border-radius:12px; background:var(--pvep-green); color:#fff; display:grid; place-content:center; font-size:1.35rem; font-weight:800; flex:none; box-shadow:0 6px 16px rgba(0,176,80,.35);">✓</span>
+        <div style="line-height:1.4;"><b style="color:#15803D; font-family:var(--font-display); font-size:1.14rem;">Đã lập Tổ QTRR</b> <span style="color:var(--ink-600); font-size:1.02rem;">(QĐ 18/QĐ-ĐHDKKM 30/3/2026) — thành phần chủ yếu Tuyến 1</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:.6rem; margin:0 0 .55rem .15rem;">
+        <span style="font-family:var(--font-display); font-weight:800; letter-spacing:.12em; text-transform:uppercase; font-size:.74rem; color:var(--warning);">Còn thiếu / cần tách bạch</span>
+        <span style="flex:1; height:1px; background:linear-gradient(90deg,rgba(234,88,12,.4),transparent);"></span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:.65rem;">
+        <div class="ac-reveal" style="--i:3; display:flex; gap:.6rem; align-items:flex-start; background:#fff; border:1px solid var(--ac-line); border-left:4px solid var(--warning); border-radius:12px; padding:.7rem .9rem; box-shadow:0 8px 22px rgba(10,42,74,.05);"><span style="color:var(--warning); font-weight:900; flex:none; line-height:1.3;">!</span><span style="font-size:1.02rem; line-height:1.4; color:var(--ink-700);">Chưa chỉ định Lãnh đạo phụ trách Công tác QTRR (Đ.14.1.f)</span></div>
+        <div class="ac-reveal" style="--i:4; display:flex; gap:.6rem; align-items:flex-start; background:#fff; border:1px solid var(--ac-line); border-left:4px solid var(--warning); border-radius:12px; padding:.7rem .9rem; box-shadow:0 8px 22px rgba(10,42,74,.05);"><span style="color:var(--warning); font-weight:900; flex:none; line-height:1.3;">!</span><span style="font-size:1.02rem; line-height:1.4; color:var(--ink-700);">Chưa có quyết định/hướng dẫn nội bộ về triển khai công tác QTRR</span></div>
+        <div class="ac-reveal" style="--i:5; display:flex; gap:.6rem; align-items:flex-start; background:#fff; border:1px solid var(--ac-line); border-left:4px solid var(--warning); border-radius:12px; padding:.7rem .9rem; box-shadow:0 8px 22px rgba(10,42,74,.05);"><span style="color:var(--warning); font-weight:900; flex:none; line-height:1.3;">!</span><span style="font-size:1.02rem; line-height:1.4; color:var(--ink-700);">HSRR chưa bao quát đầy đủ các rủi ro trọng yếu/rủi ro mới phát sinh</span></div>
+        <div class="ac-reveal" style="--i:6; display:flex; gap:.6rem; align-items:flex-start; background:#fff; border:1px solid var(--ac-line); border-left:4px solid var(--warning); border-radius:12px; padding:.7rem .9rem; box-shadow:0 8px 22px rgba(10,42,74,.05);"><span style="color:var(--warning); font-weight:900; flex:none; line-height:1.3;">!</span><span style="font-size:1.02rem; line-height:1.4; color:var(--ink-700);">Chất lượng nhận diện, mô tả rủi ro, xác định nguyên nhân cốt lõi và giải pháp ứng phó còn hạn chế</span></div>
+        <div class="ac-reveal" style="--i:7; display:flex; gap:.6rem; align-items:flex-start; background:#fff; border:1px solid var(--ac-line); border-left:4px solid var(--warning); border-radius:12px; padding:.7rem .9rem; box-shadow:0 8px 22px rgba(10,42,74,.05);"><span style="color:var(--warning); font-weight:900; flex:none; line-height:1.3;">!</span><span style="font-size:1.02rem; line-height:1.4; color:var(--ink-700);">Chưa thực hiện đầy đủ chế độ báo cáo của PVEP (Báo cáo QTRR, Báo cáo theo dõi UPRR)</span></div>
+        <div class="ac-reveal" style="--i:8; display:flex; gap:.6rem; align-items:flex-start; background:#fff; border:1px solid var(--ac-line); border-left:4px solid var(--warning); border-radius:12px; padding:.7rem .9rem; box-shadow:0 8px 22px rgba(10,42,74,.05);"><span style="color:var(--warning); font-weight:900; flex:none; line-height:1.3;">!</span><span style="font-size:1.02rem; line-height:1.4; color:var(--ink-700);">Mức độ nắm bắt phương pháp luận QTRR chưa đồng đều</span></div>
       </div>
     </div>
   </div></div>
 </section>
 
-<!-- ===================== B7 — Tài chính: vốn, công nợ, G&A (KM) ===================== -->
+<!-- ===================== B6 — Tài chính: vốn, công nợ, G&A (KM) ===================== -->
 <section class="slide" data-chapter="2">
   <div class="slide-content"><div class="wrap wrap--wide">
     <div class="head-center">
-      <div class="eyebrow ac-reveal">B7 · TÀI CHÍNH — VỐN · CÔNG NỢ · G&amp;A</div>
+      <div class="eyebrow ac-reveal">B6 · TÀI CHÍNH — VỐN · CÔNG NỢ · G&amp;A</div>
       <h2 class="s-title s-title--sm ac-reveal" style="--i:1">Tài chính kế toán <span class="neo">PVEP-Khánh Mỹ</span></h2>
     </div>
     <div class="cards cards--3" style="margin-top:clamp(.5rem,1.6vh,1rem)">
@@ -2581,11 +2600,11 @@ html.printing .slide-content [style*="max-height"]{ max-height:none !important; 
   </div></div>
 </section>
 
-<!-- ===================== B8 — CNTT & an toàn dữ liệu (KM) ===================== -->
+<!-- ===================== B7 — CNTT & an toàn dữ liệu (KM) ===================== -->
 <section class="slide" data-chapter="2">
   <div class="slide-content"><div class="wrap wrap--wide">
     <div class="head-center">
-      <div class="eyebrow ac-reveal">B8 · CNTT &amp; AN TOÀN DỮ LIỆU</div>
+      <div class="eyebrow ac-reveal">B7 · CNTT &amp; AN TOÀN DỮ LIỆU</div>
       <h2 class="s-title s-title--sm ac-reveal" style="--i:1">04 tồn tại về <span class="neo">hạ tầng &amp; an toàn dữ liệu</span></h2>
     </div>
     <div class="cards cards--4" style="margin-top:clamp(.6rem,2vh,1.2rem)">
@@ -2598,11 +2617,11 @@ html.printing .slide-content [style*="max-height"]{ max-height:none !important; 
   </div></div>
 </section>
 
-<!-- ===================== B9 — Tổng hợp kết quả KM ===================== -->
+<!-- ===================== B8 — Tổng hợp kết quả KM ===================== -->
 <section class="slide" data-chapter="2" style="overflow-y:auto;">
   <div class="slide-content" style="padding-top:2rem; padding-bottom:2rem; justify-content:safe center;"><div class="wrap wrap--wide">
     <div class="head-center" style="margin-bottom:1rem;">
-      <div class="eyebrow ac-reveal">B9 · TỔNG HỢP PVEP-KHÁNH MỸ</div>
+      <div class="eyebrow ac-reveal">B8 · TỔNG HỢP PVEP-KHÁNH MỸ</div>
       <h2 class="s-title s-title--sm ac-reveal" style="--i:1">Tổng hợp kết quả đánh giá &amp; kiến nghị</h2>
     </div>
     <div class="scards ac-reveal" style="--i:2; margin-top:1.5rem;">
